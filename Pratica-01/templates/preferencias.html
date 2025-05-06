@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preferências</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/main.css') }}">
+
+</head>
+<body>
+    
+    {% if nome and genero %}
+
+    <h1>Preferências:</h1>
+    <div class="pref">
+        <p><strong>Nome:</strong> {{ nome }}</p>
+        <p><strong>Gênero preferido:</strong> {{ genero }}</p>
+        <p><strong>Escolha de notificações:</strong> {{ notificacoes }}</p>
+
+    </div>
+
+    {% else %}
+    <h1>Você não possui cadastro.</h1>
+
+    <button><a href=" {{ url_for('cadastro') }}">Clique aqui para se cadastrar.</a></button>
+
+    {% endif %}
+</body>
+</html>

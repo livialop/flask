@@ -1,0 +1,29 @@
+
+a {
+    display: block;
+    text-decoration: none;
+    color: #FE7743;
+    background-color: #EFEEEA;
+    border-radius: 5px;
+    padding: 10px;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+a:hover {
+    color:#EFEEEA;
+    background-color: #FE7743;
+    
+}
+
+.menu {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 500px;
+    width: 700px;
+    background-color: #273F4F;
+    border-radius: 10px;
+    gap: 20px;
+}

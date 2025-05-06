@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recomendações</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/main.css') }}">
+
+</head>
+
+<body>
+
+    {% if genero and filmes %}
+    <h1>Recomendações de {{ genero|capitalize }}</h1>
+    
+    <div class="filmes">
+        {% for filme in filmes %}
+        <div class="filme">
+            <h3>{{ filme }}</h3>
+        </div>
+        {% endfor %}
+    </div>
+    
+    {% else %}
+    <h2>Gênero não existe.</h2>
+    <p>Pesquise assim: '/recomendar?genero=acao'</p>
+    
+    <div class="generos">
+        <h3>Gêneros disponíveis:</h3>
+        <ul>
+            <li>Ação</li>
+            <li>Comédia</li>
+            <li>Drama</li>
+            <li>Ficção Científica</li>
+            <li>Terror</li>
+        </ul>
+    </div>
+    
+    {% endif %}
+    
+        <a href="{{ url_for('home') }}">Voltar para a página inicial</a>
+</body>
+</html>

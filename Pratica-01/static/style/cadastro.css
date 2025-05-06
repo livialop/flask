@@ -1,0 +1,46 @@
+
+.formulario {
+    background-color: #273F4F;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 500px;
+    height: 500px;
+    border-radius: 20px;
+}
+
+select, input {
+    background-color: #EFEEEA;
+    border-radius: 10px;
+    border: 0px;
+    padding: 3px;
+}
+
+input {
+    background-color: #EFEEEA;
+}
+
+label {
+    color: #EFEEEA;
+    font-weight: bold;
+}
+
+form {
+    background-color: #FE7743;
+    width: 75%;
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    border-radius: 20px;
+}
+
+button {
+    padding: 7px;
+    border-radius: 20px;
+    border: 0px;
+    background-color: #EFEEEA;
+}
