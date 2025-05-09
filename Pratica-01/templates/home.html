@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/home.css') }}">
+</head>
+
+<body>
+    
+    <h1>Filmes</h1>
+
+    <div class="menu">
+        <a href="{{ url_for('cadastro') }}">Cadastrar preferências</a>
+        <a href="{{ url_for('preferencias') }}">Ver preferencias salvas</a>
+    </div>
+
+</body>
+</html>
