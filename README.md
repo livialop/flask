@@ -20,4 +20,15 @@ _ps.: Os passos **2-5** só precisam ser executados se ocorrer erro para a cria�
 2. Acesse o Terminal.
 3. Navegue até o diretório criado no passo 1.
 4. Para criar o ambiente virtual, escreva na linha de comando: ```python3 -m venv .env```
-5. Para acessar o ambiente virtual
+5. Para acessar o ambiente virtual: ```source .env/bin/activate```
+6. Instale o pip com: ```sudo apt-get install python3-pip```
+7. Execute o comando: pip install flask
+8. Com a aplicação feita, execute o código com: ```flask --app nome_da_aplicacao run --debug```
+
+
+# Better Jinja
+Better Jinja serve para completar comandos no HTML e cores diferentes para as expressões dentro do HTML. Caso queira utilizar, instale no VsCode a extensão <a href="https://marketplace.visualstudio.com/items/?itemName=samuelcolvin.jinjahtml"> Better Jinja </a>. Configure o Better Jinja com: 
+1. Vá até Configurações 
+2. Pesquise por 'Preferências'
+3. Clique no *Edit in settings.json* 
+4. Adicione a linha: ```"emmet.includeLanguages": {"jinja-html": "html"},```
