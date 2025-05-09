@@ -1,7 +1,9 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, make_response, url_for, session
 from datetime import datetime, timedelta
 
 app = Flask(__name__)
+
+app.config['SECRET_KEY'] = 'testedechavesecreta'
 
 # Página Inicial
 @app.route('/')
@@ -13,6 +15,7 @@ def home():
 def cadastro():
     
     if request.method == 'POST': # Pega os dados do form
+        # 'nome' é o atributo 'name' do input
         nome = request.form.get('nome')
         genero = request.form.get('genero')
         notificacoes = ''
@@ -22,7 +25,12 @@ def cadastro():
         else:
             notificacoes = 'NÃO'
 
-        response = redirect('/preferencias')
+        # Guardar o usuário na sessão
+        session['user'] = nome
+
+        response = make_response(
+            redirect(url_for('preferencias'))
+        )
 
         # COOKIES
         data_expiracao = datetime.now() + timedelta(days=7)
@@ -37,14 +45,22 @@ def cadastro():
 # Página de preferências / COOKIES 
 @app.route('/preferencias')
 def preferencias():
-    nome = request.cookies.get('nome')
-    genero = request.cookies.get('genero')
-    notificacoes = request.cookies.get('notificacoes')
+    # O 'user' é a chave para encontrar o usuário
+    if 'user' in session:
+        #user = session['user'] 
+        #if user in request.cookies: # if redundante
+        
+        nome = request.cookies.get('nome')
+        genero = request.cookies.get('genero')
+        notificacoes = request.cookies.get('notificacoes')
+        
+        return render_template('preferencias.html', nome=nome, genero=genero, notificacoes=notificacoes)
 
-    if not nome or not genero or notificacoes is None:
+    #if not nome or not genero or notificacoes is None:
+    else:
+    # Se não existe user, não possui nenhum usuário cadastrado:
         return render_template('preferencias.html', nome=None, genero=None, notificacoes=None)
 
-    return render_template('preferencias.html', nome=nome, genero=genero, notificacoes=notificacoes)
 
 @app.route('/recomendar')
 def recomendar():
