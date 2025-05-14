@@ -22,7 +22,7 @@ _ps.: Os passos **2-5** só precisam ser executados se ocorrer erro para a cria�
 4. Para criar o ambiente virtual, escreva na linha de comando: ```python3 -m venv .env```
 5. Para acessar o ambiente virtual: ```source .env/bin/activate```
 6. Instale o pip com: ```sudo apt-get install python3-pip```
-7. Execute o comando: pip install flask
+7. Execute o comando: ```pip install flask```
 8. Com a aplicação feita, execute o código com: ```flask --app nome_da_aplicacao run --debug```
 
 
