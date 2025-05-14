@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+<body>
+    
+    <form method="POST" action="{{ url_for('login') }}">
+        <label for="user">User:</label>
+        <input type="text" id="user" name="user">
+
+        <label for="senha">Senha:</label>
+        <input type="password" id="senha" name="senha">
+
+        <label for="cookie">Lembrar de mim?</label>
+        <input type="checkbox" id="cookie" name="cookie">
+
+        <button type="submit">Enviar</button>
+    </form>
+
+   
+
+    <a href="{{ url_for('home') }}">Voltar para a página inicial</a>
+
+</body>
+</html>
