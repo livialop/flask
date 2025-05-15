@@ -24,7 +24,9 @@ _ps.: Os passos **2-5** só precisam ser executados se ocorrer erro para a cria�
 6. Instale o pip com: ```sudo apt-get install python3-pip```
 7. Execute o comando: ```pip install flask```
 8. Com a aplicação feita, execute o código com: ```flask --app nome_da_aplicacao run --debug```
-
+#
+1. Para colocar os pacotes para utilizar em projeto: ```pip freeze > requirements.txt```
+2. Para instalar os pacotes: ```pip install -r requirements.txt```
 
 ## Better Jinja
 Better Jinja serve para completar comandos no HTML e cores diferentes para as expressões dentro do HTML. Caso queira utilizar, instale no VsCode a extensão <a href="https://marketplace.visualstudio.com/items/?itemName=samuelcolvin.jinjahtml"> Better Jinja </a>. Configure o Better Jinja com: 
