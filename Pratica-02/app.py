@@ -1,12 +1,14 @@
-# FALTA ADICIONAR SENHA DO USUÁRIO E CRIPTOGRAFAR A SENHA
+# FALTA ADICIONAR LISTA DE USUÁRIOS
 
 from flask import Flask, render_template, url_for, session, request, redirect
+from cryptography.fernet import Fernet
 
 app = Flask(__name__)
-
 app.config['SECRET_KEY'] = 'MEGADIFICIL_ME_ESCONDE'
 
-users = []
+chave = Fernet.generate_key()
+fernet = Fernet(chave)
+
 
 @app.route('/')
 def index():
@@ -18,11 +20,17 @@ def register():
     if request.method == 'POST':
         # Realizar o cadastro
         nome = request.form.get('nome')
-        if nome in users:
+        senha = request.form.get('senha')
+
+        if 'users' not in session:
+            session['users'] = {}
+        
+        if nome in session['users']:
             redirect(url_for('login'))
         else:
-            users.append(nome)
-            session['user'] = nome
+            senha_criptografada = criptografar(senha)
+            session['users'][nome] = senha_criptografada
+            session['user'] = nome 
             return redirect(url_for('dashboard'))
 
     return render_template('register.html')
@@ -33,9 +41,16 @@ def login():
     if request.method == 'POST':
         # Realizar o login
         nome = request.form.get('nome')
-        if nome in users:
-            session['user'] = nome
-            return redirect(url_for('dashboard'))
+        senha_login = request.form.get('senha')
+
+        if 'users' not in session:
+            return redirect(url_for('register'))
+
+        if nome in session['users']:
+            senha_criptografada = session['users'][nome]
+            if comparar_senhas(senha_login, senha_criptografada):
+                session['user'] = nome
+                return redirect(url_for('dashboard'))
 
     return render_template('login.html')
 
@@ -44,7 +59,9 @@ def login():
 def dashboard():
     if 'user' in session:
         nome = session['user']
-        return render_template('dashboard.html', nome=nome)
+        usuarios = session.get('users', {})
+        return render_template('dashboard.html',
+                                nome=nome, usuarios=usuarios)
     else:
         return redirect(url_for('login'))
 
@@ -53,3 +70,17 @@ def dashboard():
 def logout():
     session.pop('user')
     return redirect(url_for('index'))
+
+
+def criptografar(senha):
+    return fernet.encrypt(senha.encode()).decode()
+
+def comparar_senhas(senha_login, senha_criptografada):
+    try:
+        senha_descriptografada = fernet.decrypt(senha_criptografada.encode()).decode()
+        if senha_login == senha_descriptografada:
+            return True
+
+    except:
+        return False
+
