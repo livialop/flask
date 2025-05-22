@@ -77,6 +77,6 @@ def logout():
 # FALTA TIRAR O HTML5 DAS PÁGINAS E USAR O FILE base.html PARA FAZER O HTML BÁSICO DAS PÁGS
 
 # LEMBRAR DE COLOCAR OS REQUIREMENTS.TXT AO FINAL DA ATIVIDADE
-
+# fazer testes de alterações para usar .scss files inves de .css
 if __name__ == '__main__':
     app.run(debug=True)
