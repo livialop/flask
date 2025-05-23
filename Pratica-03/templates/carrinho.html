@@ -11,13 +11,42 @@
 </head>
 <body>
 
-    {% for produto in produtos %}
-    <div class="card bg-dark text-white">
-        <div class="card-body ">            
-            {{ produto }}:  R${{produtos[produto]}} 
-        </div>
-    </div>
-    {% endfor %}
+    <div class="container mt-4">
+        <h2 class="text-center mb-4">Seu Carrinho</h2>
+        
+        {% if carrinho %}
+            <div class="row">
+                {% for produto, preco in carrinho.items() %}
+                    <div class="col-md-6 mb-3">
+                        <div class="card bg-dark text-white">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ produto }}</h5>
+                                <p class="card-text">Preço: R$ {{ preco }}</p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
 
+            <div class="text-center mt-4">
+                <h4>Total: <strong>R$ {{ valor_total }}</strong></h4>
+            </div>
+
+            <div class="d-flex justify-content-center gap-3 mt-4">
+                <form action="{{ url_for('remover_do_carrinho') }}" method="POST">
+                    <button type="submit" class="btn btn-danger">Esvaziar Carrinho</button>
+                </form>
+            </div>
+        {% else %}
+            <div class="alert alert-info text-center">
+                Seu carrinho está vazio. <a href="{{ url_for('produtos') }}">Volte às compras!</a>
+            </div>
+        {% endif %}
+
+        <form action="{{ url_for('logout') }}" method="POST">
+            <button class="btn btn-dark btn-lg d-block">Sair</button>
+        </form>
+
+    </div>
 </body>
 </html>
