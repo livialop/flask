@@ -21,7 +21,7 @@ PRODUTOS = {
 # Página Inicial
 @app.route('/')
 def index():
-    nome = request.cookies.get('nome', 'Usuário')
+    nome = request.cookies.get('nome', 'Usuário') # Por default, o nome do usuário vai ser Usuário
     return render_template('index.html', nome=nome)
 
 # Página de Cadastro
@@ -32,26 +32,25 @@ def cadastro():
         email = request.form.get('email')
         senha = request.form.get('senha')
 
-        if 'users' not in session:
+        if 'users' not in session: # Inicializa a session com o user
             session['users'] = {}
 
         if email in session['users']:
             redirect(url_for('login')) 
 
         
-        senha_cripto = generate_password_hash(senha)
-        session['users'][email] = senha_cripto
-        session['user'] = email
+        senha_cripto = generate_password_hash(senha) # Faz a criptografia da senha 
+        session['users'][email] = senha_cripto # Guarda a senha criptografada
+        session['user'] = email # Faz com que a session fique assim: {pessoa@gmail.com : senha_criptografada}
 
         response = make_response(
             redirect(url_for('produtos'))
         )
-        data_expiracao = datetime.now() + timedelta(days=7)
+        data_expiracao = datetime.now() + timedelta(days=7) # Para definir os sete dias dos cookies, decidi guardar o nome e email nos cookies, mas acho que apenas o nome seria necessário
         response.set_cookie('email', email, expires=data_expiracao)
         response.set_cookie('nome', nome, expires=data_expiracao)
 
         return response
-            
 
     elif request.method == 'GET':
         return render_template('cadastro.html')
@@ -60,18 +59,18 @@ def cadastro():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
 
-    if 'user' not in session:
+    if 'user' not in session: # Quem não está na session não pode entrar na página de login, pois não possui o login
         return redirect(url_for('cadastro'))
 
-    if request.method == 'POST':
+    if request.method == 'POST': # Pegando os dados do formulário para comparar o usuário que está tentando logar
         email = request.form.get('email')
         senha_login = request.form.get('senha')
 
         senha_cripto = session['users'][email]
 
-        if check_password_hash(senha_cripto, senha_login):
+        if check_password_hash(senha_cripto, senha_login): # Compara a senha digitada com a senha guardada na session
                 session['user'] = email
-                data_expiracao = datetime.now() + timedelta(days=7)
+                data_expiracao = datetime.now() + timedelta(days=7) # Definindo os sete dias para os cookies expirarem
                 response = make_response(redirect(url_for('produtos')))
                 response.set_cookie('email', email, expires=data_expiracao)
                 response.set_cookie('nome', session['users'].get('nome', 'Usuário'), expires=data_expiracao)
@@ -91,27 +90,28 @@ def produtos():
 @app.route('/carrinho', methods=['POST'])
 def carrinho():
 
-    if 'user' not in session:
+    if 'user' not in session: # O usuário não pode ver essa página se não estiver logado.
         return redirect(url_for('cadastro'))
-    if 'carrinho' not in session:
+    if 'carrinho' not in session: # Inicializa o carrinho na session.
         session['carrinho'] = {}
 
     # produtos_selecionados = {}
-    for produto in request.form:
+    for produto in request.form: # Pega os produtos selecionados por checkbox no html e adiciona na session
         if produto in PRODUTOS:
             session['carrinho'][produto] = PRODUTOS[produto]
 
-    session.modified = True
+    session.modified = True # Para modificar a session, adicionando o carrinho
     return redirect(url_for('ver_carrinho'))
 
 
 @app.route('/ver_carrinho', methods=['GET'])
-def ver_carrinho():
-    if 'user' not in session:
+def ver_carrinho(): 
+    # Função para visualizar os itens do carrinho, caso existam
+    if 'user' not in session: # Usuário não pode entrar nessa página caso não esteja logado 
         return redirect(url_for('cadastro'))
     
     carrinho = session.get('carrinho', {})
-    valor_total = sum(carrinho.values())
+    valor_total = sum(carrinho.values()) # Somando os valores que coloquei no dicionário PRODUTOS para ver o valor total do carrinho do usuário
 
     return render_template('carrinho.html', carrinho=carrinho, valor_total=valor_total)
 
@@ -119,16 +119,15 @@ def ver_carrinho():
 @app.route('/remover_do_carrinho', methods=['POST'])
 def remover_do_carrinho():
     if 'user' in session:
-        session.pop('carrinho')
-    return redirect(url_for('ver_carrinho'))
+        session.pop('carrinho') # Remove os itens do carrinho, esvaziando
+    return redirect(url_for('ver_carrinho')) # Retorna para ver carrinho para o usuário decidir se ele vai adicionar outros itens ou sair (logout)
 
-# FALTA TIRAR O HTML5 DAS PÁGINAS E USAR O FILE base.html PARA FAZER O HTML BÁSICO DAS PÁGS
 # LEMBRAR DE COLOCAR OS REQUIREMENTS.TXT AO FINAL DA ATIVIDADE
 
 # Deslogar o usuário atual
 @app.route('/logout', methods=['POST'])
 def logout():
-    session.pop('user')
+    session.pop('user') # Desloga o usuário que está na session atual
     return redirect(url_for('index'))
 
 if __name__ == '__main__':
