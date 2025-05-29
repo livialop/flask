@@ -41,3 +41,6 @@ Better Jinja serve para completar comandos no HTML e cores diferentes para as ex
 
 ## Flask Snippets
 Flask Snippets serve para autocompletar comandos flask, como **route, flask app, route com get e post**, entre outros. Caso deseje utilizar, instale no VsCode a extensão: <a href="https://marketplace.visualstudio.com/items?itemName=cstrap.flask-snippets">Flask Snippets</a>.
+
+## Jinja Snippets
+Para completar comandos no HTML de forma mais simples, diferente do Better Jinja, você não precisa alterar nada no arquivo *settings.json* - apenas instalar a extensão e utilizar.
