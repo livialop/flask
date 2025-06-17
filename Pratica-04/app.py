@@ -1,6 +1,5 @@
 from flask import Flask, render_template
 from flask import request, session, redirect, url_for
-from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 
@@ -21,20 +20,17 @@ produtos_ = {
 }
 
 
+
 @app.route('/')
 def index():
     return render_template('index.html')
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
-    if 'user' not in session: 
-        return redirect(url_for('cadastro'))
-
     if request.method == 'POST':
         nome = request.form['nome']
         senha = request.form['senha']
-
-        if nome in usuarios.keys() and check_password_hash(usuarios[nome], senha):
+        if nome in usuarios.keys() and senha == usuarios[nome]:
             session['user'] = nome
             return redirect(url_for('produtos'))
         
@@ -46,15 +42,11 @@ def login():
 def cadastro():
     if request.method == 'POST':
         nome = request.form['nome']
-        
         if nome in usuarios.keys():
             return redirect(url_for('cadastro'))
         
         senha = request.form['senha']
-
-        senha_cripto = generate_password_hash(senha)
-        usuarios[nome] = senha_cripto
-
+        usuarios[nome] = senha
         return redirect(url_for('login'))
 
     return render_template('cadastro.html')
@@ -97,10 +89,4 @@ def carrinho():
         'carrinho.html',
         carrinho=carrinho_, 
         valor=soma)
-
-@app.route('/remover_do_carrinho', methods=['POST'])
-def remover():
-    if 'user' in session:
-        session.pop('carrinho') 
-    return redirect(url_for('carrinho')) 
 

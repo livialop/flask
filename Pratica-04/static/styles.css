@@ -56,26 +56,3 @@ main div {
 h2 span::before {
     content: 'R$ '
 }
-
-li {
-    a {
-        color: white;
-        text-decoration: none;
-    }
-    
-    a:hover {
-        color:#00A0C6; 
-        text-decoration:none; 
-        cursor:pointer;  
-    }
-}
-
-.carrinho {
-    background-color: white;
-    
-    button {
-        padding: 1em;
-        margin-top: 1em;
-
-    }
-}

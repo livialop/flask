@@ -5,10 +5,9 @@
 {% endblock %}
 
 {% block conteudo %}
-<div class="carrinho">
-
+<div>
     <h1>Meu Carrinho</h1>
-    
+
     {% for k in carrinho %}
     <ul>
         <li class="produto"> 
@@ -17,6 +16,5 @@
     </ul>   
     {% endfor %}
     <h2>Total: <span>{{valor}}</span> </h2>
-    <button type="submit">Limpar carrinho</button>
 </div>
 {% endblock %}
