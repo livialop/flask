@@ -1,7 +1,13 @@
 from flask import Flask, render_template
 from flask import request, session, redirect, url_for
+# from flask_login import LoginManager, login_user, login_required, logout_user
+# from models.user import User
+
+# login_manager = LoginManager()
 
 app = Flask(__name__)
+
+# login_manager.init_app(app)
 
 app.config['SECRET_KEY'] = 'RANCA TAMPA E MANDA BOI'
 
@@ -79,6 +85,9 @@ def adicionar():
 
 @app.route('/carrinho')
 def carrinho():
+    if 'user' not in session:
+        return redirect(url_for('login'))
+    
     carrinho_ = session[session.get('user')]
 
     soma = 0
@@ -90,3 +99,13 @@ def carrinho():
         carrinho=carrinho_, 
         valor=soma)
 
+@app.route('/limpar_carrinho', methods=['POST'])
+def limpar_carrinho():
+    user = session['user']
+
+    if user in session:
+        session[user].clear()
+        session.modified = True
+        # Ou: session[user] = []
+
+    return redirect(url_for('carrinho'))
