@@ -66,7 +66,10 @@ def register():
 
         id = len(session['usuarios']) + 1
         for key, info in session['usuarios'].items():
-            if nome in info:
+            if nome == info['nome']:
+
+                flash('Você já possui cadastro', category='error')
+
                 return redirect(url_for('register'))
         
         user = User(nome=nome, senha=senha)
