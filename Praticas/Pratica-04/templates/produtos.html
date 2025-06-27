@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Produtos
+{% endblock %}
+
+
+{% block conteudo %}
+    
+    <h1>Produtos</h1>
+
+    {% for k, v in produtos.items() %}
+    <ul>
+        <li class="produto"> 
+            <p>{{k}}</p>
+            <p>{{v}}</p>
+            <form action="{{url_for('adicionar')}}" method="POST">
+                <input type="hidden" name="prod" value="{{k}}">
+                <button class="send">&#128722;</button>
+            </form>
+        </li>
+    </ul>   
+    {% endfor %}
+
+{% endblock %}

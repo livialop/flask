@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Carrinho
+{% endblock %}
+
+{% block conteudo %}
+<div>
+    <h1>Meu Carrinho</h1>
+
+    {% if carrinho%}
+
+        {% for k in carrinho %}
+        <ul>
+            <li class="produto"> 
+                <p>{{k}}</p>                  
+            </li>
+        </ul>   
+        {% endfor %}
+        <h2>Total: <span>{{valor}}</span> </h2>
+        <form action="{{ url_for('limpar_carrinho') }}" method="POST">
+            <button type="submit">Limpar carrinho</button>
+        </form>
+
+    {% else %}
+    
+    <p>Seu carrinho está vazio</p>
+
+    {% endif%}
+</div>
+{% endblock %}
