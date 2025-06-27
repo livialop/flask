@@ -14,3 +14,4 @@
 
 ## Faltando
 * Além das funcionalidades da tarefa, falta atualizar a rota de login.
+* Mover a classe User para a pasta models

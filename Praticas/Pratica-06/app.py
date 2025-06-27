@@ -98,12 +98,17 @@ def login():
 
         senha_cripto = session['users'][email]
 
-        if check_password_hash(senha_cripto, senha_login): # Compara a senha digitada com a senha guardada na session
-                session['user'] = email
-                response = make_response(redirect(url_for('produtos')))
-                return response
-        else:
-            return redirect(url_for('login'))
+        users_list = session['users']
+
+        for id, data in users_list.items():
+            if email == data and check_password_hash(senha_cripto, senha_login):
+                user = User(email=email, senha=senha_cripto)
+                user.id = id
+                login_user(user)
+                return redirect(url_for('produtos'))
+        
+        flash('Dados incorretos', category='error')
+        redirect(url_for('login'))
 
     return render_template('login.html') # Se o usuário errar a senha, a página aparece novamente vazia.
 
