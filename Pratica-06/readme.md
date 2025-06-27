@@ -8,3 +8,9 @@
 * Ajustar o flask-login no projeto
 * Tirar os cookies
 * Ajustar a session
+
+## Feito
+* Rota de cadastro
+
+## Faltando
+* Além das funcionalidades da tarefa, falta atualizar a rota de login.
