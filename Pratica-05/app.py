@@ -32,7 +32,6 @@ def load_user(user_id):
 
 @app.route('/')
 def index():
-
     if 'usuarios' not in session:
         session['usuarios'] = {}
 

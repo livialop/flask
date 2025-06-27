@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %} Cadastro {% endblock  %}
+
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/cadastro_login.css') }}">
+{% endblock  %}
+    
+
+{% block content %}
+    <p class="h2">Cadastro de usuário</p>
+    <div class="formulario">
+        <form method="POST">
+            <label for="formControlInput" class="form-label">Nome:</label>
+            <input type="text" class="form-control" id="formControlInput" placeholder="Fulano de Tal" name="nome">    
+            <label for="formControlInput" class="form-label">E-mail:</label>
+            <input type="email" class="form-control" id="formControlInput" placeholder="nome@exemplo.com" name="email">    
+            <label for="floatingPassword">Senha:</label>
+            <input type="password" class="form-control" id="floatingPassword" placeholder="Senha" name="senha">
+            <button type="submit" class="btn btn-dark btn-lg d-block mb-2">Enviar</button>
+        </form>    
+    </div>
+{% endblock  %}    

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %} Produtos {% endblock %}
+
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/produtos.css')}}">
+{% endblock %}
+
+{% block content %}
+    <p class="h3">Escolha os produtos que você deseja comprar</p>
+    <div class="formulario">
+        <form action="{{ url_for('carrinho') }}" method="POST">
+            {% for produto in produtos.keys() %}
+                <label class="list-group-item">
+                <input name="{{ produto }}" class="form-check-input me-1" type="checkbox">
+                <strong>{{ produto }}</strong> R${{ produtos[produto] }}
+                </label>
+            {% endfor %}    
+            <button type="submit" class="btn btn-dark">Adicionar ao carrinho</button>
+        </form>
+    </div>
+{% endblock %}
+    
