@@ -6,6 +6,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin, LoginManager
 from flask_login import login_user, login_required, logout_user
 
+from models.user import User
+
 
 login_manager = LoginManager()
 
@@ -15,19 +17,6 @@ app.config['SECRET_KEY'] = "Zor{YD-}R%J?Y1=3iB*b0^]`AcYF." # Senha gerada em um 
 
 login_manager.__init__(app)
 
-class User(UserMixin):
-    def __init__(self, email, senha) -> dict:
-        self.email = email
-        self.senha = senha
-
-    @classmethod
-    def get(cls, user_id):
-        users_list = session['users']
-        if user_id in users_list:
-            data = users_list[user_id]
-            user = User(email=data['email'], senha=data['senha'])
-            user.id = user_id
-            return user
 
 @login_manager.user_loader
 def load_user(user_id):
