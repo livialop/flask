@@ -4,7 +4,7 @@ from flask import render_template, request, redirect, make_response, url_for, se
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from flask_login import UserMixin, LoginManager
-from flask_login import login_user, login_required
+from flask_login import login_user, login_required, logout_user
 
 
 login_manager = LoginManager()
@@ -66,7 +66,7 @@ def cadastro():
         id = len(session['users']) + 1
         for key, data in session['users'].items():
             print(key, data)
-            if email == data:
+            if email == data['email']:
                 flash('Você já possui cadastro', category='error')
 
                 return redirect(url_for('login'))
@@ -92,23 +92,26 @@ def cadastro():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
 
-    if request.method == 'POST': # Pegando os dados do formulário para comparar o usuário que está tentando logar
+    if request.method == 'POST':
         email = request.form.get('email')
         senha_login = request.form.get('senha')
 
-        senha_cripto = session['users'][email]
-
-        users_list = session['users']
-
+        users_list = session.get('users', {})
+        
+        # Procurar o usuário pelo email
+        user_found = None
         for id, data in users_list.items():
-            if email == data and check_password_hash(senha_cripto, senha_login):
-                user = User(email=email, senha=senha_cripto)
-                user.id = id
-                login_user(user)
-                return redirect(url_for('produtos'))
+            if email == data['email']:  # Comparar com o email dentro do dicionário
+                if check_password_hash(data['senha'], senha_login):
+                    user = User(email=email, senha=data['senha'])
+                    user.id = id
+                    login_user(user)
+                    return redirect(url_for('produtos'))
+                else:
+                    break  # Senha incorreta
         
         flash('Dados incorretos', category='error')
-        redirect(url_for('login'))
+        return redirect(url_for('login'))
 
     return render_template('login.html') # Se o usuário errar a senha, a página aparece novamente vazia.
 
@@ -160,7 +163,8 @@ def remover_do_carrinho():
 @app.route('/logout', methods=['POST'])
 @login_required
 def logout():
-    session.pop('user') # Desloga o usuário que está na session atual
+    logout_user() # Desloga o usuário 
+    flash('Você foi deslogado com sucesso.', 'success')
     return redirect(url_for('index'))
 
 if __name__ == '__main__':
