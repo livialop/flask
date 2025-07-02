@@ -2,11 +2,16 @@ from flask import Flask
 from flask import render_template, request, redirect, make_response, url_for, session, flash
 
 from werkzeug.security import generate_password_hash, check_password_hash
+from datetime import datetime
 
-from flask_login import UserMixin, LoginManager
-from flask_login import login_user, login_required, logout_user
+from flask_login import LoginManager
+from flask_login import login_user, login_required, logout_user, current_user
 
 from models.user import User
+from models.utils import load_prods, load_compras, save_compras
+
+import json
+import os
 
 
 login_manager = LoginManager()
@@ -17,11 +22,9 @@ app.config['SECRET_KEY'] = "Zor{YD-}R%J?Y1=3iB*b0^]`AcYF." # Senha gerada em um 
 
 login_manager.__init__(app)
 
-
 @login_manager.user_loader
 def load_user(user_id):
     return User.get(user_id)
-
 
 
 # PRODUTOS -> Decidi que o site vai vender celulares. Preço ótimo
@@ -34,6 +37,14 @@ PRODUTOS = {
     'Xiaomi Redmi 8': 10,
     'LG G6': 80
 }
+
+
+PRODS = 'produtos.json'
+
+PRODS = load_prods(PRODS)
+
+COMPRAS = 'compras.json'
+
 
 
 # Página Inicial
@@ -141,12 +152,28 @@ def ver_carrinho():
     return render_template('carrinho.html', carrinho=carrinho, valor_total=valor_total)
 
 
-@app.route('/remover_do_carrinho', methods=['POST'])
+@app.route('/finalizar_compra', methods=['POST'])
 @login_required
-def remover_do_carrinho():
-    if 'carrinho' in session:
+def finalizar_compra():
+    if 'carrinho' in session and session['carrinho']:
+        compras = load_compras(COMPRAS)
+
+        user_id = str(current_user.id)
+        user_email = session['users'][user_id]['email']
+
+        if user_email not in compras:
+            compras[user_email] = []
+
+        compras[user_email].append({
+            'itens': session['carrinho'],
+            'total': sum(session['carrinho'].values())
+        })
+
+        save_compras(compras, COMPRAS)
+
         session.pop('carrinho')
         session.modified = True
+    
     return redirect(url_for('ver_carrinho')) # Retorna para ver carrinho para o usuário decidir se ele vai adicionar outros itens ou sair (logout)
 
 
