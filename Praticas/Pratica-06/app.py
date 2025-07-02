@@ -142,9 +142,11 @@ def ver_carrinho():
 
 
 @app.route('/remover_do_carrinho', methods=['POST'])
+@login_required
 def remover_do_carrinho():
-    if 'user' in session:
-        session.pop('carrinho') # Remove os itens do carrinho, esvaziando
+    if 'carrinho' in session:
+        session.pop('carrinho')
+        session.modified = True
     return redirect(url_for('ver_carrinho')) # Retorna para ver carrinho para o usuário decidir se ele vai adicionar outros itens ou sair (logout)
 
 

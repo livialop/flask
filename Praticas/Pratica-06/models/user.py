@@ -1,4 +1,5 @@
 from flask_login import UserMixin
+from flask import session
 
 class User(UserMixin):
     def __init__(self, email, senha) -> dict:
