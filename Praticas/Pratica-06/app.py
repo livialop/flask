@@ -1,5 +1,5 @@
 from flask import Flask
-from flask import render_template, request, redirect, make_response, url_for, session, flash
+from flask import render_template, request, redirect, url_for, session, flash
 
 from werkzeug.security import generate_password_hash, check_password_hash
 

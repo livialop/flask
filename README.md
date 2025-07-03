@@ -44,3 +44,6 @@ Flask Snippets serve para autocompletar comandos flask, como **route, flask app,
 
 ## Jinja Snippets
 Para completar comandos no HTML de forma mais simples, diferente do Better Jinja, você não precisa alterar nada no arquivo *settings.json* - apenas instalar a extensão e utilizar.
+
+## SQLite Viewer
+Para visualizações dos arquivos com extensão .db
