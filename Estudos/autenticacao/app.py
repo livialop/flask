@@ -36,7 +36,7 @@ def register():
 
         if email in session['users']:
             flash('Email já cadastrado, volte e faça login', category='error')
-            return redirect(url_for('login'))
+            return redirect(url_for('index'))
         
         password_hash = generate_password_hash(password)
 
