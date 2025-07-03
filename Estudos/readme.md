@@ -1,5 +1,6 @@
 # Estudos
 ## 2a prova, 1o bimestre
+* Avaliação será sobre autenticação de usuário usando flask-login.
 * Estudar flask flash
 * Estudar flask-login
 * Fazer exercício com flash e flask-login
