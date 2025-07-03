@@ -6,7 +6,7 @@ conn = sqlite3.connect('banco.db')
 
 SQL = 'INSERT INTO users(nome) VALUES (?)'
 
-nome = 'Cesar'
+nome = 'Livia'
 
 conn.execute(SQL, (nome, ))
 conn.commit()
