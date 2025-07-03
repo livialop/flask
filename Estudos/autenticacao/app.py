@@ -27,8 +27,8 @@ def index():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-    if current_user.is_authenticated:
-        return redirect(url_for('index'))
+    # if current_user.is_authenticated:
+    #     return redirect(url_for('index'))
 
     if request.method == 'POST':
         email = request.form.get('email')
@@ -50,3 +50,31 @@ def register():
         return redirect(url_for('index'))
     
     return render_template('register.html')
+
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if current_user.is_authenticated:
+        
+        if request.method == 'POST':
+            email = request.form.get('email')
+            password = request.form.get('password')
+
+            if email not in session['users']:
+                flash('E-mail não cadastrado', category='error')
+                return redirect(url_for('login'))
+            
+            pss_hash = session['users'][email]
+
+            user = User(email=email, password_hash=pss_hash)
+
+            if user.verify_password(password):
+                login_user(user)
+                flash('Login realizado com sucesso!', category='success')
+                return redirect(url_for('index'))
+            else:
+                flash('Senha incorreta.', category='error')
+                return redirect(url_for('login'))
+
+        return render_template('login.html')

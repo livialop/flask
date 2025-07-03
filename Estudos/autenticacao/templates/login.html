@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 
-{% block title %}Home{% endblock %}
+{% block title %}
+Login
+{% endblock  %}
 
 {% block content %}
-
-<h1>Oi</h1>
 
 {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
@@ -16,7 +16,16 @@
     {% endif %}
 {% endwith %}
 
-<button><a href="{{ url_for('register') }}">Register</a></button>
-<button><a href="{{ url_for('login') }}">Login</a></button>
+<form action="{{ url_for('login') }}" method="post">
+
+    <label for="email">Email</label>
+    <input type="text" name="email">
+
+    <label for="password">Senha</label>
+    <input type="password" name="password">  
+
+    <button type="submit">Enviar</button>
+
+</form>
 
 {% endblock  %}
