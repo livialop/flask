@@ -83,7 +83,7 @@ def login():
                 flash('Matrícula não cadastrada', category='error')
                 return redirect(url_for('index'))
 
-            pss_hash = session['users'][matricula]['senha'] 
+            pss_hash = session['users'][matricula]['password'] 
 
             user = User(matricula, email, pss_hash)
 
