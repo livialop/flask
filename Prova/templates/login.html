@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}
+Login
+{% endblock title %}
+
+{% block style %}
+{{ super() }}
+{% endblock style %}
+
+{% include "cabecalho.html" %}
+
+{% block content %}
+<form action="{{ url_for('login') }}" method="post">
+
+    <label for="matricula">Matricula</label>
+    <input type="text" name="matricula">
+
+    <label for="email">Email</label>
+    <input type="text" name="email">
+
+    <label for="password">Senha</label>
+    <input type="password" name="password">
+
+    <button type="submit">Enviar</button>
+
+</form>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            <div class="alert alert-{{ category }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+{% endblock content %}

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock  %}
+
+{% block style %}
+{{ super() }}
+{% endblock style %}
+
+{% include "cabecalho.html" %}
+
+{% block content %}
+
+<h1>Olá, bem vindo!</h1>
+
+<p>Faça o cadastro ou o login para ser redirecionado a página de exercícios!</p>
+<button><a href="{{ url_for('cadastro') }}">Cadastro</a></button>
+<button><a href="{{ url_for('login') }}">Login</a></button>
+<button><a href="{{ url_for('arearestrita') }}">Área restrita (só entre se já tiver cadastrado ou logado)</a></button>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            <div class="alert alert-{{ category }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+{% endblock %}
