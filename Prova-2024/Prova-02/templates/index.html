@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock  %}
+
+{% block content %}
+
+<h1>Olá, bem vindo!</h1>
+
+<p>Faça o cadastro ou o login para ser redirecionado a página de exercícios!</p>
+<button><a href="{{ url_for('cadastro') }}">Cadastro</a></button>
+<button><a href="#">Login</a></button>
+
+{% endblock %}
