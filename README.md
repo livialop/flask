@@ -1,7 +1,7 @@
 # flask
 
 ## Sobre o repositório
-Esse repositório foi criado para guardar provas, atividades e projetos da matéria Programação de Sistemas para Internet, ensinada pelo professor Romerito Campos, pelo IFRN - Campus Caicó.
+Esse repositório foi criado para guardar estudos, atividades e projetos da matéria Programação de Sistemas para Internet, ensinada pelo professor Romerito Campos, pelo IFRN - Campus Caicó.
 
 ## Criação de ambientes virtuais e execução da aplicação
 Para a utilização de ambos tutoriais, certifique-se que o Python está instalado na sua máquina.
