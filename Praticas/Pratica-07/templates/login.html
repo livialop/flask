@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Login
+{% endblock %}
+
+{% block conteudo %}
+<h1>Login</h1>
+
+{% include 'componentes/erro.html' %}
+
+<form action="{{url_for('login')}}" method="post">
+    <input type="text" name="name" placeholder="Nome">
+    <input type="password" name="password" placeholder="Senha">
+    <button>Enviar</button>
+</form>
+{% endblock %}

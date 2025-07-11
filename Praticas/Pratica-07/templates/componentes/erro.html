@@ -1,0 +1,7 @@
+{% with errors = get_flashed_messages(category_filter=['error'])  %}
+{% if errors %}
+{% for msg in errors %}
+    <span style="color:red">{{msg}}</span>
+{% endfor %}
+{% endif %}  
+{% endwith %}
