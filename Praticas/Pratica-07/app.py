@@ -1,48 +1,41 @@
 from flask import Flask, render_template
 from flask import request, session, redirect, url_for
 from flask import flash
-
+from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, logout_user
 from flask_login import login_required, login_user, current_user
+from werkzeug.security import check_password_hash, generate_password_hash
 
-from werkzeug.security import check_password_hash
-from werkzeug.security import generate_password_hash
-
-import sqlite3
-
-login_manager = LoginManager()
-
+# Configurações do Flask e SQLAlchemy
 app = Flask(__name__)
-
-login_manager.__init__(app)
-
 app.secret_key = 'chave_secreta'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///banco.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
+db = SQLAlchemy(app)
+login_manager = LoginManager(app)
 
-def obter_conexao():
-    conn = sqlite3.connect('banco.db')
-    conn.row_factory = sqlite3.Row
-    return conn
+# Modelo de Usuário
+class User(UserMixin, db.Model):
+    __tablename__ = 'users'
+    id = db.Column(db.Integer, primary_key=True)
+    nome = db.Column(db.String(80), unique=True, nullable=False)
+    senha = db.Column(db.String(120), nullable=False)
 
-class User(UserMixin):
-    def __init__(self, nome, senha) -> None:
+    def __init__(self, nome, senha):
         self.nome = nome
         self.senha = senha
 
     @classmethod
     def get(cls, user_id):
-        # user_id nesse caso é um nome
-        conexao = obter_conexao()        
-        sql = "select * from users where nome = ?"
-        resultado = conexao.execute(sql, (user_id,)).fetchone()
-        user = User(nome=resultado['nome'], senha=resultado['senha'])
-        user.id = resultado['nome']
-        return user
+        return cls.query.get(user_id)
 
+# Configuração do Login Manager
 @login_manager.user_loader
 def load_user(user_id):
     return User.get(user_id)
 
+# Rotas
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -53,65 +46,42 @@ def login():
         nome = request.form['name']
         senha = request.form['password']
 
-        conexao = obter_conexao()
-
-        sql = "select * from users where nome = ?"
-        resultado = conexao.execute(sql, (nome,)).fetchone()
-        if not resultado:
+        user = User.query.filter_by(nome=nome).first()
+        
+        if not user:
             flash('Usuário não logado', category='error')
             return redirect(url_for('login'))
-
-        elif resultado:
-            sql_senha = "select * from users where nome = ?"
-            resultado_senha = conexao.execute(sql_senha, (nome,)).fetchone() # O resultado disso é uma tupla
-            if resultado_senha[2] != senha: # Pego o valor 3 da tupla pois é o equivalente à senha
-                flash('Senha incorreta', category='error')
-                return redirect(url_for('login'))
-            else:
-                user = User(nome=nome, senha=senha)
-                user.id = nome
-                login_user(user)
-
-                flash('Você está logado!')
-                return redirect(url_for('dash'))
-            
-        #return redirect(url_for('login'))
+        
+        if user.senha != senha:
+            flash('Senha incorreta', category='error')
+            return redirect(url_for('login'))
+        
+        login_user(user)
+        flash('Você está logado!')
+        return redirect(url_for('dash'))
 
     return render_template('login.html')
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-
     if request.method == 'POST':
         nome = request.form['name']
-        senha= request.form['password']
+        senha = request.form['password']
     
-        conexao = obter_conexao()        
-        sql = "select * from users where nome = ?"
-        resultado = conexao.execute(sql, (nome,)).fetchone()
-        # none
-        if not resultado:
-            # realização do cadastro
-            sql = "INSERT INTO users(nome, senha) VALUES(?,?)"
-            conexao.execute(sql, (nome, senha))
-            conexao.commit()
+        existing_user = User.query.filter_by(nome=nome).first()
+        
+        if not existing_user:
+            new_user = User(nome=nome, senha=senha)
+            db.session.add(new_user)
+            db.session.commit()
 
-            # definir o usuário para logar
-            user = User(nome=nome, senha=senha)
-            user.id = nome
-
-            login_user(user)
-
-            # flash('Cadastro realizado com sucesso!', category='error')
+            login_user(new_user)
             return redirect(url_for('dash'))
-
-        conexao.close()
         
         flash('Problema no cadastro', category='error')
         return redirect(url_for('register'))
 
     return render_template('register.html')
-
 
 @app.route('/dashboard')
 @login_required
@@ -123,3 +93,10 @@ def dash():
 def logout():
     logout_user()
     return redirect(url_for('index'))
+
+# Criar tabelas (substitui o iniciar.py)
+with app.app_context():
+    db.create_all()
+
+if __name__ == '__main__':
+    app.run(debug=True)
