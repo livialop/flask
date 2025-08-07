@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block head %}
+    {{ super() }}
+
+    {% block title %}
+        Novo personagem
+    {% endblock title %}
+
+{% endblock head %}
+
+{% block content %}
+
+    <form action="{{ url_for('novopersonagem') }}" method="post">
+
+        <label for="nome">Nome</label>
+        <input type="text" name="nome" autocomplete="off" placeholder=" ">
+
+        <label for="jogo_origem">Jogo de Origem</label>
+        <input type="text" name="jogo_origem" autocomplete="off" placeholder=" ">
+
+        <label for="habilidade_principal">Habilidade principal do personagem</label>
+        <input type="text" name="habilidade_principal" autocomplete="off" placeholder=" ">
+
+        <button type="submit">Enviar</button>
+
+    </form>
+
+{% endblock content %}

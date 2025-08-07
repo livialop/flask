@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block head %}
+    {{ super() }}
+
+    {% block title %}
+        Personagens
+    {% endblock title %}
+
+{% endblock head %}
+
+{% block content %}
+
+    <h1>Personagens adicionados:</h1>
+
+    <table style="border: 1px solid black; width:50em">
+        <tr>
+            <th>Nome</th>
+            <th>Jogo de Origem</th>
+            <th>Habilidade Principal</th>
+        </tr>
+            {% for nome in nome_personagem %}
+                <tr>
+                    <td>{{ nome }}</td>
+                    <td>{{ info_personagem[nome]['jogo_origem'] }}</td>
+                    <td>{{ info_personagem[nome]['habilidade_principal'] }}</td>
+                </tr>
+            {% endfor %}
+    </table>
+
+{% endblock content %}
