@@ -21,5 +21,5 @@ Base.metadata.create_all(bind=engine)
 
 
 with Session(bind=engine) as sessao:
-    resultado = sessao.query(Livro).all()
+    resultado = sessao.query(Livro).filter(Livro.titulo.startswith('A')).all()
     print(resultado)
