@@ -31,4 +31,9 @@ with engine.connect() as conn:
     conn.execute(SQL)
     conn.commit()
 
-# Para isso, é necessário abrir o Workbench e criar o schema com o nome desejado.
+#with engine.connect() as conn:
+#    SQL = "INSERT INTO users(nome) VALUES (:nome)"
+#    nome = 'livia'
+#    conn.execute(text(SQL), {'nome', nome})
+#    conn.commit()
+#    conn.close()
