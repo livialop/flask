@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block head %}
+    {% block title %}Página Inicial{% endblock title %}
+{% endblock head %}
+
+{% block content %}
+    <h1>Página Inicial</h1>
+    <p>Isso é um estudo para a prova de PSI</p>
+
+    {% include "flash.html" %}
+
+    <a href="{{ url_for('cadastro') }}"><button> Cadastro </button></a>
+    <a href="#"><button> Login </button></a>
+{% endblock content %}
