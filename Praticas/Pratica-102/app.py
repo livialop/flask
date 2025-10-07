@@ -51,3 +51,27 @@ def cadastro():
         return redirect(url_for('index'))
     
     return render_template('cadastro.html')
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        email = request.form['email']
+        senha = request.form['senha']
+
+        user_existe = session.query(User).filter_by(email=email).first()
+        # Se o usuário existir no banco de dados
+        if user_existe and check_password_hash(user_existe.senha, senha):
+            login_user(user_existe)
+            flash('Login realizado', category='success')
+            session.close()
+            return redirect(url_for('index'))
+        
+        session.close()
+        flash('Email ou senha incorretos.', category='error')
+        return redirect(url_for('login'))
+    
+    # Se a request for GET
+    return render_template('login.html')
+            
+        

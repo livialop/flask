@@ -47,3 +47,11 @@ Para completar comandos no HTML de forma mais simples, diferente do Better Jinja
 
 ## SQLite Viewer
 Para visualizações dos arquivos com extensão .db
+
+## Frequentemente utilizados `pip`
+```cmd
+pip install sqlalchemy
+pip install flask_login
+pip install mysqlclient
+pip install faker
+```
