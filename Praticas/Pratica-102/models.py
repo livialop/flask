@@ -3,7 +3,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship, Session, Declara
 from flask_login import UserMixin
 from typing import List
 
-engine = create_engine('sqlite:///pratica102.db', echo=True) # o Echo está sendo mantido para ver as atualizações sobre o BD
+engine = create_engine('sqlite:///pratica102.db') # o Echo está sendo mantido para ver as atualizações sobre o BD
 session = Session(bind=engine)
 
 class Base(UserMixin, DeclarativeBase):

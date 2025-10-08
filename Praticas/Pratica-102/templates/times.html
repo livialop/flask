@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block head %}
+    {% block title %}Times{% endblock title %}
+{% endblock head %}
+
+{% block content %}
+    {% include "flash.html" %}
+
+    {% if times %}
+
+        {% for time in times %}
+            <p><b>Time: </b>{{ time.nome }}</p>
+        {% endfor %}
+
+    {% else %}
+        <p>Você ainda não adicionou times</p>
+    {% endif %}
+
+    <a href="{{ url_for('add_time') }}"><button>Adicionar time</button></a>
+    <a href="{{ url_for('logout') }}"><button>Logout</button></a>
+
+
+{% endblock content %}

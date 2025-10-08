@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, url_for, redirect, flash
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from werkzeug.security import check_password_hash, generate_password_hash
 from models import *
+from sqlalchemy import select
 
 # Configurações iniciais da aplicação
 app = Flask(__name__)
@@ -23,6 +24,8 @@ with app.app_context():
 # Rotas
 @app.route('/')
 def index():
+    # nome = select(User.nome)
+    # print(session.execute(nome).fetchall())
     return render_template('index.html')
 
 @app.route('/cadastro', methods=['GET', 'POST'])
@@ -65,7 +68,7 @@ def login():
             login_user(user_existe)
             flash('Login realizado', category='success')
             session.close()
-            return redirect(url_for('index'))
+            return redirect(url_for('times'))
         
         session.close()
         flash('Email ou senha incorretos.', category='error')
@@ -74,4 +77,48 @@ def login():
     # Se a request for GET
     return render_template('login.html')
             
-        
+@app.route('/times')
+@login_required
+def times():
+    user_id = current_user.id
+    usuario = session.get(User, user_id)
+    times = usuario.times
+    session.close()
+    print(current_user.times)
+    return render_template('times.html', times=times)
+
+
+@app.route('/add_time', methods=['GET', 'POST'])
+@login_required
+def add_time():
+    if request.method == 'POST':
+        nome = request.form['nome']
+
+        time_existente = session.query(Time).filter_by(nome=nome).first()
+        if time_existente:
+            if time_existente not in current_user.times:
+                current_user.times.append(time_existente)
+                session.commit()
+                flash('Time adicionado', category='success')
+            else:
+                flash('Você já adicionou esse time', category='error')
+
+        novo_time = Time(nome=nome)
+        current_user.times.append(novo_time)
+
+        session.add(novo_time)
+        session.commit()
+        session.close()
+
+        flash('Novo time criado', category='success')
+        return redirect(url_for('times'))
+
+    # Se a request for GET
+    return render_template('add_time.html')
+
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('index'))

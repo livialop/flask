@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block head %}
+    {% block title %}Adicionar time{% endblock title %}
+{% endblock head %}
+
+{% block content %}
+    {% include "flash.html" %}
+    <h1>Adicionar Time</h1>
+    <form action="{{ url_for('add_time') }}" method="post">
+        <label for="nome">Nome do time:</label>
+        <input type="text" name="nome" id="nome" required>
+        <button type="submit">Adicionar</button>
+    </form>
+{% endblock %}
