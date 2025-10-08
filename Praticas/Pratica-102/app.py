@@ -116,6 +116,27 @@ def add_time():
     # Se a request for GET
     return render_template('add_time.html')
 
+@login_required
+@app.route('/remove_time/<int:time_id>', methods=['POST'])
+def remove_time(time_id):
+    # Busca o time pelo ID
+    time = session.get(Time, time_id)
+
+    # Se o time não existir no banco
+    if not time:
+        flash('Time não encontrado.', 'error')
+        return redirect(url_for('times'))
+
+    # Se o time está associado ao usuário logado
+    if time in current_user.times:
+        current_user.times.remove(time)  # 🔹 Remove da relação
+        session.commit()
+        flash('Time removido da sua lista.', 'success')
+    else:
+        flash('Este time não está na sua lista.', 'warning')
+
+    return redirect(url_for('times'))
+
 
 @app.route('/logout')
 @login_required
