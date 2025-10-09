@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>Editar Time</h1>
+
+  <form method="POST">
+    <label for="nome">Novo nome do time:</label><br>
+    <input type="text" id="nome" name="nome" value="{{ time.nome }}" required>
+    <button type="submit">Salvar</button>
+  </form>
+
+  <br>
+  <a href="{{ url_for('times') }}">Voltar para meus times</a>
+{% endblock %}

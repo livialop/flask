@@ -7,8 +7,9 @@
         <li>
             {{ time.nome }}
             <form action="{{ url_for('remove_time', time_id=time.id) }}" method="POST" style="display:inline;">
-            <button type="submit">Remover</button>
+                <button type="submit">Remover</button>
             </form>
+            <a href="{{ url_for('edit_time', time_id=time.id) }}"><button>Editar</button></a>
         </li>
     {% endfor %}
     </ul>

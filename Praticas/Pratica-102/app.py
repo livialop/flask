@@ -129,13 +129,46 @@ def remove_time(time_id):
 
     # Se o time está associado ao usuário logado
     if time in current_user.times:
-        current_user.times.remove(time)  # 🔹 Remove da relação
+        current_user.times.remove(time)  # Remove da relação
         session.commit()
         flash('Time removido da sua lista.', 'success')
     else:
         flash('Este time não está na sua lista.', 'warning')
 
     return redirect(url_for('times'))
+
+
+@login_required
+@app.route('/edit_time/<int:time_id>', methods=['GET', 'POST'])
+def edit_time(time_id):
+    time = session.get(Time, time_id)
+
+    # Se o time não existir
+    if not time:
+        flash('Time não encontrado.', category='error')
+        return redirect(url_for('times'))
+
+    # Se o time não estiver associado ao usuário logado
+    if time not in current_user.times:
+        flash('Você não tem permissão para editar este time.', category='error')
+        return redirect(url_for('times'))
+
+    if request.method == 'POST':
+        novo_nome = request.form.get('nome', '').strip()
+
+        if not novo_nome:
+            flash('O nome não pode ser vazio.', category='error')
+            return redirect(url_for('edit_time', time_id=time_id))
+
+        # Atualiza o nome do time
+        time.nome = novo_nome
+        session.commit()
+
+        flash('Nome do time atualizado com sucesso!', category='success')
+        return redirect(url_for('times'))
+
+    # Se a request for GET
+    return render_template('edit_time.html', time=time)
 
 
 @app.route('/logout')
