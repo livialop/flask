@@ -1,0 +1,202 @@
+/* static/style.css
+   Estilo inspirado em Tailwind (utilitários + componentes simples)
+*/
+
+/* --- Tokens --- */
+:root{
+  --bg: #f8fafc;
+  --surface: #ffffff;
+  --muted: #6b7280;
+  --text: #0f172a;
+  --primary: #2563eb;    /* azul */
+  --primary-600: #1e40af;
+  --success: #16a34a;
+  --danger: #ef4444;
+  --glass: rgba(15,23,42,0.04);
+  --radius: 12px;
+  --shadow-sm: 0 1px 2px rgba(2,6,23,0.06);
+  --shadow-md: 0 6px 18px rgba(2,6,23,0.08);
+  --container-width: 1000px;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+               Roboto, "Helvetica Neue", Arial;
+}
+
+/* --- Reset + base --- */
+* { box-sizing: border-box; }
+html,body { height:100%; }
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  line-height:1.45;
+  padding: 28px;
+}
+
+/* --- Container --- */
+.container{
+  width:100%;
+  max-width:var(--container-width);
+  margin:0 auto;
+  padding:0 16px;
+}
+
+/* --- Flex / Layout utilities (básicos) --- */
+.flex { display:flex; }
+.items-center { align-items:center; }
+.justify-between { justify-content:space-between; }
+.gap-2 { gap:8px; }
+.gap-3 { gap:12px; }
+.gap-4 { gap:16px; }
+.flex-col { flex-direction:column; }
+.w-full { width:100%; }
+.max-w-sm { max-width: 480px; }
+
+/* --- Spacing helpers --- */
+.p-2 { padding:8px; }
+.p-3 { padding:12px; }
+.p-4 { padding:16px; }
+.py-2 { padding-top:8px; padding-bottom:8px; }
+.py-3 { padding-top:12px; padding-bottom:12px; }
+.px-4 { padding-left:16px; padding-right:16px; }
+.mt-2 { margin-top:8px; }
+.mt-3 { margin-top:12px; }
+.mt-4 { margin-top:16px; }
+.mb-2 { margin-bottom:8px; }
+
+/* --- Typography --- */
+.text-sm { font-size:0.875rem; }
+.text-base { font-size:1rem; }
+.text-lg { font-size:1.125rem; }
+.font-medium { font-weight:500; }
+.font-semibold { font-weight:600; }
+.text-muted { color:var(--muted); }
+
+/* --- Colors & backgrounds --- */
+.bg-primary { background: linear-gradient(180deg,var(--primary),var(--primary-600)); color: white; }
+.bg-surface { background: var(--surface); }
+.bg-glass { background: var(--glass); }
+.text-primary { color: var(--primary); }
+
+/* --- Buttons --- */
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  padding:8px 14px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-weight:600;
+  box-shadow: var(--shadow-sm);
+  transition: transform .06s ease, box-shadow .12s ease;
+  text-decoration:none;
+}
+.btn:active { transform: translateY(1px); }
+.btn-primary { background: var(--primary); color: white; }
+.btn-primary:hover { background: var(--primary-600); box-shadow: var(--shadow-md); }
+.btn-ghost { background: transparent; color: var(--primary); border: 1px solid rgba(37,99,235,0.12); }
+
+/* --- Inputs / Forms --- */
+.input, textarea {
+  width:100%;
+  padding:10px 12px;
+  border-radius:10px;
+  border:1px solid rgba(15,23,42,0.08);
+  background: white;
+  outline: none;
+  font-size: 0.95rem;
+  box-shadow: none;
+  transition: box-shadow .12s ease, border-color .12s ease;
+}
+.input:focus, textarea:focus {
+  border-color: rgba(37,99,235,0.9);
+  box-shadow: 0 6px 18px rgba(37,99,235,0.08);
+}
+
+/* form label */
+.form-label { display:block; margin-bottom:6px; color:var(--muted); font-size:0.9rem; }
+
+/* --- Nav --- */
+.site-nav{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  padding:12px 16px;
+  border-radius:14px;
+  background:linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.5));
+  box-shadow: var(--shadow-sm);
+  margin-bottom:20px;
+}
+.site-nav .brand { font-weight:700; font-size:1.05rem; color:var(--primary); }
+.site-nav .links { display:flex; gap:12px; align-items:center; }
+.site-nav a { text-decoration:none; color:var(--text); padding:8px 10px; border-radius:8px; }
+.site-nav a:hover { background: var(--glass); }
+.site-nav a.active { background: var(--primary); color: #fff; }
+
+/* --- Cards / panels --- */
+.card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding:16px;
+  box-shadow: var(--shadow-md);
+  transition: transform .08s ease;
+}
+.card:hover { transform: translateY(-4px); }
+
+.header-card {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:12px;
+}
+
+/* --- Profile header --- */
+.profile-avatar {
+  width:64px; height:64px; border-radius:999px;
+  background: linear-gradient(135deg, #c7d2fe, #a78bfa);
+  display:inline-flex; align-items:center; justify-content:center;
+  color:#073; font-weight:700; font-size:1.25rem;
+  box-shadow: var(--shadow-sm);
+}
+
+/* --- Form layout helpers --- */
+.form-row { display:flex; gap:12px; }
+.col { flex:1; }
+
+/* --- Tiny helpers --- */
+.rounded { border-radius:10px; }
+.shadow-sm { box-shadow: var(--shadow-sm); }
+.text-center { text-align:center; }
+
+/* --- Responsive --- */
+@media (max-width: 720px) {
+  .container { padding:0 12px; }
+  .site-nav { flex-direction:column; align-items:flex-start; gap:8px; }
+  .form-row { flex-direction:column; }
+  .header-card { flex-direction:column; align-items:flex-start; gap:8px; }
+}
+
+/* --- Example small components used in templates --- */
+/* Login / Register box */
+.auth-box {
+  margin: 28px auto;
+  width:100%;
+  max-width:420px;
+  padding:20px;
+  border-radius:14px;
+  background: linear-gradient(180deg, #ffffff, #fbfcff);
+  box-shadow: 0 12px 40px rgba(2,6,23,0.06);
+}
+
+/* Simple footer */
+.footer {
+  margin-top:32px;
+  color:var(--muted);
+  font-size:0.9rem;
+  text-align:center;
+}

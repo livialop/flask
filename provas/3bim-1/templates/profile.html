@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}Perfil{% endblock %}
+{% block content %}
+<div class="card flex items-center gap-4">
+  <div class="profile-avatar">
+    {{ user.nome[0]|upper }}
+  </div>
+  <div>
+    <h2 class="font-semibold text-lg">{{ user.nome }}</h2>
+    <p class="text-muted">{{ user.email }}</p>
+  </div>
+</div>
+
+<div class="card mt-4">
+  <h3 class="font-medium mb-2">Área do usuário</h3>
+  <p class="text-muted text-sm">
+    Aqui futuramente poderão aparecer posts, tarefas ou outros relacionamentos para testar o SQLAlchemy.
+  </p>
+</div>
+{% endblock %}

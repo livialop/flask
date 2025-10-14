@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}Registrar{% endblock %}
+{% block content %}
+<div class="auth-box">
+  <h2 class="text-center font-semibold text-lg mb-2">Criar conta</h2>
+  <form method="POST" class="flex flex-col gap-3 mt-3">
+    <div>
+      <label class="form-label">Nome</label>
+      <input type="text" name="nome" class="input" required>
+    </div>
+
+    <div>
+      <label class="form-label">Email</label>
+      <input type="email" name="email" class="input" required>
+    </div>
+
+    <div>
+      <label class="form-label">Senha</label>
+      <input type="password" name="senha" class="input" required>
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-3 w-full">Cadastrar</button>
+  </form>
+
+  <p class="text-center text-sm mt-3 text-muted">
+    Já possui conta? <a href="{{ url_for('login') }}" class="text-primary font-medium">Entrar</a>
+  </p>
+</div>
+{% endblock %}

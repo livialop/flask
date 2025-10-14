@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}App Base{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="container">
+
+    <nav class="site-nav">
+      <div class="brand">MinhaApp</div>
+      <div class="links">
+        <a href="{{ url_for('index') }}" class="{% if request.endpoint == 'index' %}active{% endif %}">Início</a>
+        {% if current_user.is_authenticated %}
+          <a href="{{ url_for('profile') }}" class="{% if request.endpoint == 'profile' %}active{% endif %}">Perfil</a>
+          <a href="{{ url_for('logout') }}">Sair</a>
+        {% else %}
+          <a href="{{ url_for('login') }}" class="{% if request.endpoint == 'login' %}active{% endif %}">Login</a>
+          <a href="{{ url_for('register') }}" class="{% if request.endpoint == 'register' %}active{% endif %}">Registrar</a>
+        {% endif %}
+      </div>
+    </nav>
+
+    <main class="mt-4">
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          <div class="card bg-glass text-center p-3 mb-2">
+            {% for msg in messages %}
+              <p>{{ msg }}</p>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endwith %}
+
+      {% block content %}{% endblock %}
+    </main>
+
+    <footer class="footer">
+      <p>Avaliação de PSI</p>
+    </footer>
+
+  </div>
+</body>
+</html>
