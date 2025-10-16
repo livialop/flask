@@ -6,7 +6,7 @@
   <p class="text-muted">Aqui, você pode informar o título dolivro e seu autor para criá-lo.</p>
 </div>
 
-<form action="{{ url_for('adicionar_livro') }}" method="post" class="card mt-4">
+<form action="{{ url_for('books.adicionar_livro') }}" method="post" class="card mt-4">
   <div class="mb-4">
     <label for="titulo" class="block text-sm font-medium mb-1">Título do livro:</label>
     <input type="text" name="titulo" id="titulo" required class="w-full border border-gray-300 rounded px-3 py-2">

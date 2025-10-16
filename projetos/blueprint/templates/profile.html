@@ -17,13 +17,13 @@
     {% for livro in livros %}
       <li>
       {{ livro.titulo }} - {{ livro.autor }}
-      <form action="{{ url_for('remover_livro', livro_id = livro.id) }}" method="post">
+      <form action="{{ url_for('books.remover_livro', livro_id = livro.id) }}" method="post">
         <button type="submit" class="text-red-500 text-sm">Remover</button>
       </form>
       </li>
     {% endfor %}
   </ul>
   <p class="text-muted text-sm">Quer adicionar um novo livro a sua área?</p>
-  <a href="{{ url_for('adicionar_livro') }}"><button>Adicionar livro</button></a>
+  <a href="{{ url_for('books.adicionar_livro') }}"><button>Adicionar livro</button></a>
 </div>
 {% endblock %}

@@ -16,7 +16,7 @@ def register():
 
         if user_existente:
             flash('Email já cadastrado!')
-            return redirect(url_for('register'))
+            return redirect(url_for('auth.register'))
 
         novo_user = User(nome=nome, email=email, senha=senha)
         session.add(novo_user)
@@ -27,7 +27,7 @@ def register():
         session.close()
 
         flash('Usuário registrado com sucesso!')
-        return redirect(url_for('login'))
+        return redirect(url_for('auth.login'))
 
     return render_template('register.html')
 
@@ -44,7 +44,7 @@ def login():
             login_user(user_existente)
             flash('Login realizado com sucesso!')
             session.close()
-            return redirect(url_for('profile'))
+            return redirect(url_for('userprofile.profile'))
         # Se a senha ou email não existir
         session.close()
         flash('Credenciais inválidas!')
@@ -55,4 +55,4 @@ def login():
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('index'))
+    return redirect(url_for('main.index'))
