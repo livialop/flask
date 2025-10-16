@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %}Livro{% endblock %}
+{% block content %}
+
+    <div class="max-w-4xl mx-auto bg-white rounded-2xl shadow-md p-6">
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-2xl font-bold text-blue-700">📚 Meus Livros</h1>
+            <a href="{{ url_for('novo_livro') }}" 
+               class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">Novo Livro</a>
+        </div>
+
+        {% if livros %}
+            <ul class="space-y-3">
+                {% for livro in livros %}
+                <li class="border p-4 rounded-lg flex justify-between items-center">
+                    <div>
+                        <p class="font-semibold">{{ livro.titulo }}</p>
+                        <p class="text-sm text-gray-600">{{ livro.autor }} — {{ livro.ano }}</p>
+                    </div>
+                    <div class="flex gap-2">
+                        <a href="#" 
+                           class="text-blue-600 hover:underline text-sm">Editar</a>
+                        <form method="POST" action="{{ url_for('excluir_livro', id=livro.id) }}">
+                            <button type="submit" class="text-red-600 hover:underline text-sm">Excluir</button>
+                        </form>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="text-gray-600 text-center mt-8">Nenhum livro encontrado.</p>
+        {% endif %}
+    </div>
+
+{% endblock %}

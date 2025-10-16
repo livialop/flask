@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}Perfil{% endblock %}
+{% block content %}
+<div class="card flex items-center gap-4">
+  <div class="profile-avatar">
+    {{ user.nome[0]|upper }}
+  </div>
+  <div>
+    <h2 class="font-semibold text-lg">{{ user.nome }}</h2>
+    <p class="text-muted">{{ user.email }}</p>
+  </div>
+</div>
+
+<div class="card mt-4">
+  <h3 class="font-medium mb-2">Área do usuário</h3>
+  <ul>
+    {% for livro in livros %}
+      <li>
+      {{ livro.titulo }} - {{ livro.autor }}
+      <form action="{{ url_for('remover_livro', livro_id = livro.id) }}" method="post">
+        <button type="submit" class="text-red-500 text-sm">Remover</button>
+      </form>
+      </li>
+    {% endfor %}
+  </ul>
+  <p class="text-muted text-sm">Quer adicionar um novo livro a sua área?</p>
+  <a href="{{ url_for('adicionar_livro') }}"><button>Adicionar livro</button></a>
+</div>
+{% endblock %}
