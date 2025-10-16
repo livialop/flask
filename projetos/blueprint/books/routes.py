@@ -1,4 +1,4 @@
-from flask import Blueprint, redirect, url_for, request, flash, render_template
+from flask import Blueprint, redirect, url_for, request, flash, render_template, Response
 from flask_login import login_required, current_user
 from database import *
 
@@ -6,8 +6,8 @@ books_bp = Blueprint('books', __name__, template_folder='templates', static_fold
 
 @books_bp.route('/remover_livro/<int:livro_id>', methods=['POST'])
 @login_required
-def remover_livro(livro_id):
-    livro = session.get(Livro, livro_id)
+def remover_livro(livro_id) -> Response:
+    livro: Livro = session.get(Livro, livro_id)
 
     if not livro:
         flash('Livro não encontrado', category='error')
@@ -25,12 +25,12 @@ def remover_livro(livro_id):
 
 @books_bp.route('/adicionar_livro', methods=['GET', 'POST'])
 @login_required
-def adicionar_livro():
+def adicionar_livro() -> Response | str:
     if request.method == 'POST':
-        titulo = request.form['titulo']
-        autor = request.form['autor']
+        titulo: str = request.form['titulo']
+        autor: str = request.form['autor']
 
-        livro = session.query(Livro).filter_by(titulo=titulo, autor=autor).first()
+        livro: Livro = session.query(Livro).filter_by(titulo=titulo, autor=autor).first()
         if livro:
             if livro not in current_user.livros:
                 current_user.livros.append(livro)
@@ -39,7 +39,7 @@ def adicionar_livro():
             else:
                 flash('Já adicionou esse livro.', category='error')
 
-        novo_livro = Livro(titulo=titulo, autor=autor)
+        novo_livro: Livro = Livro(titulo=titulo, autor=autor)
         current_user.livros.append(novo_livro)
 
         session.add(novo_livro)
