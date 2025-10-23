@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block head %}
+    {% block title %}Lojinha{% endblock title %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/index.css') }}">
+{% endblock head %}
+{% block content %}
+
+    <h1>Bem-vindo a nossa loja!</h1>
+
+{% endblock content %}
