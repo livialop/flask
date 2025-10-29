@@ -13,9 +13,9 @@
         <nav class="main-nav">
             <a href="{{ url_for('main.index') }}" class="nav-link">Início</a>
             <a href="{{ url_for('products.buyproducts') }}" class="nav-link">Produtos</a>
-            <a href="{{ url_for('products.insertproduct') }}" class="nav-link">Inserir</a>
-            {% if current_user and current_user.is_authenticated %}
-                <a href="{{ url_for('products.viewproducts', user_id=current_user.id) }}" class="nav-link">Meus Produtos</a>
+            {% if current_user.is_authenticated %}
+                <a href="{{ url_for('products.insertproduct') }}" class="nav-link">Inserir</a>
+                <a href="{{ url_for('products.viewproducts') }}" class="nav-link">Produtos Comprados</a>
                 <a href="{{ url_for('auth.logout') }}" class="nav-link logout">Sair</a>
             {% else %}
                 <a href="{{ url_for('auth.login') }}" class="nav-link">Login</a>

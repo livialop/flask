@@ -1,41 +1,44 @@
 {% extends "base.html" %}
-
+{% block title %} View Products {% endblock title %}
 {% block head %}
-    {% block title %} View Products {% endblock title %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='style/buyproducts.css') }}">
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='style/buyproducts.css') }}">
 {% endblock head %}
 
 {% block content %}
 
+    {% include "components/flash.html" %}
+    <div class="products-container">
+        <header class="products-header">
+            <h1>Produtos disponíveis</h1>
+            <nav class="products-nav">
+                {% if current_user and current_user.is_authenticated %}
+                    <a class="btn" href="{{ url_for('products.buyproducts') }}">Todos</a>
+                    <a class="btn" href="{{ url_for('products.insertproduct') }}">Inserir</a>
+                    <a class="btn" href="{{ url_for('products.viewproducts', user_id=current_user.id) }}">Meus</a>
+                {% endif %}
+            </nav>
+        </header>
+
+        {% if produtos %}
+            <div class="product-list">
+                {% for p in produtos %}
+                    <form action="{{ url_for('products.buyproducts') }}" method="POST">
+                        <article class="product-card">
+                            <input type="hidden" name="id" value="{{ p.id }}">
+                            <h2 class="product-name">{{ p.nome }}</h2>
+                            <p class="product-desc">{{ p.descricao }}</p>
+                            <p class="product-price">Preço: R$ {{ '%.2f'|format(p.preco) }}</p>
+                            {% if current_user.is_authenticated %}
+                                <button type="submit">Comprar</button>
+                            {% endif %}
+                        </article>
+                    </form>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>Nenhum produto cadastrado ainda.</p>
+        {% endif %}
+    </div>
 
 {% endblock content %}
-
-<div class="products-container">
-    <header class="products-header">
-        <h1>Produtos disponíveis</h1>
-        <nav class="products-nav">
-            <a class="btn" href="{{ url_for('products.buyproducts') }}">Todos</a>
-            <a class="btn" href="{{ url_for('products.insertproduct') }}">Inserir</a>
-            {% if current_user and current_user.is_authenticated %}
-                <a class="btn" href="{{ url_for('products.viewproducts', user_id=current_user.id) }}">Meus</a>
-            {% endif %}
-        </nav>
-        <div class="products-actions">
-            {# ações contextuais (ex: filtros) podem ficar aqui #}
-        </div>
-    </header>
-
-    {% if produtos %}
-        <div class="product-list">
-            {% for p in produtos %}
-                <article class="product-card">
-                    <h2 class="product-name">{{ p.nome }}</h2>
-                    <p class="product-desc">{{ p.descricao }}</p>
-                    <p class="product-price">Preço: R$ {{ '%.2f'|format(p.preco) }}</p>
-                </article>
-            {% endfor %}
-        </div>
-    {% else %}
-        <p>Nenhum produto cadastrado ainda.</p>
-    {% endif %}
-</div>

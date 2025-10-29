@@ -1,12 +1,13 @@
 {% extends "base.html" %}
 
-
+{% block title %} Insert Product {% endblock title %}
 {% block head %}
-    {% block title %} Insert Product {% endblock title %}
+    {{ super()}}
     <link rel="stylesheet" href="{{ url_for('static', filename='style/insertproduct.css') }}">
 {% endblock head %}
 
 {% block content %}
+    {% include "components/flash.html" %}
     <div class="auth-box">
         <h2 class="text-center font-semibold text-lg mb-2">Insira novos produtos</h2>
         {# Exibe mensagens flash, se houver #}

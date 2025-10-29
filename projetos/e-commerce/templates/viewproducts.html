@@ -1,45 +1,44 @@
 {% extends "base.html" %}
-
+{% block title %} View Products {% endblock title %}
 {% block head %}
-    {% block title %} View Products {% endblock title %}
+    {{ super() }}
     <link rel="stylesheet" href="{{ url_for('static', filename='style/viewproducts.css') }}">
 {% endblock head %}
 
 {% block content %}
+    {% include "components/flash.html" %}
+    <div class="view-products-page">
+        <header>
+            <h1>Visualizar produtos</h1>
+            <nav class="products-nav">
+                <a class="btn" href="{{ url_for('products.buyproducts') }}">Todos</a>
+                <a class="btn" href="{{ url_for('products.insertproduct') }}">Inserir</a>
+                {% if current_user and current_user.is_authenticated %}
+                    <a class="btn" href="{{ url_for('products.viewproducts', user_id=current_user.id) }}">Meus</a>
+                {% endif %}
+            </nav>
+        </header>
 
+        {# `produtos` pode ser uma lista ou um único objeto dependendo da rota: #}
+        {% if produtos is iterable and not produtos.__class__.__name__ == 'Product' %}
+            <div class="product-list">
+                {% for p in produtos %}
+                    <div class="product-item">
+                        <h2>{{ p.nome }}</h2>
+                        <p>{{ p.descricao }}</p>
+                        <p>Preço: R$ {{ '%.2f'|format(p.preco) }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        {% elif produtos %}
+            <div class="product-detail">
+                <h2>{{ produtos.nome }}</h2>
+                <p>{{ produtos.descricao }}</p>
+                <p>Preço: R$ {{ '%.2f'|format(produtos.preco) }}</p>
+            </div>
+        {% else %}
+            <p>Não há produtos para mostrar.</p>
+        {% endif %}
+    </div>
 
 {% endblock content %}
-
-<div class="view-products-page">
-    <header>
-        <h1>Visualizar produtos</h1>
-        <nav class="products-nav">
-            <a class="btn" href="{{ url_for('products.buyproducts') }}">Todos</a>
-            <a class="btn" href="{{ url_for('products.insertproduct') }}">Inserir</a>
-            {% if current_user and current_user.is_authenticated %}
-                <a class="btn" href="{{ url_for('products.viewproducts', user_id=current_user.id) }}">Meus</a>
-            {% endif %}
-        </nav>
-    </header>
-
-    {# `produtos` pode ser uma lista ou um único objeto dependendo da rota: #}
-    {% if produtos is iterable and not produtos.__class__.__name__ == 'Product' %}
-        <div class="product-list">
-            {% for p in produtos %}
-                <div class="product-item">
-                    <h2>{{ p.nome }}</h2>
-                    <p>{{ p.descricao }}</p>
-                    <p>Preço: R$ {{ '%.2f'|format(p.preco) }}</p>
-                </div>
-            {% endfor %}
-        </div>
-    {% elif produtos %}
-        <div class="product-detail">
-            <h2>{{ produtos.nome }}</h2>
-            <p>{{ produtos.descricao }}</p>
-            <p>Preço: R$ {{ '%.2f'|format(produtos.preco) }}</p>
-        </div>
-    {% else %}
-        <p>Não há produtos para mostrar.</p>
-    {% endif %}
-</div>

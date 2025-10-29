@@ -1,4 +1,4 @@
-from sqlalchemy import String, Integer, create_engine, ForeignKey, Float
+from sqlalchemy import String, Integer, create_engine, ForeignKey, Float, Boolean
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, Session, relationship
 from typing import List
 from flask_login import UserMixin
@@ -26,6 +26,7 @@ class Product(Base):
     nome: Mapped[str] = mapped_column(String(120), nullable=False)
     descricao: Mapped[str] = mapped_column(String(250))
     preco: Mapped[float] = mapped_column(Float, nullable=False)
+    disponivel: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True)
 
     user_id: Mapped[int] = mapped_column(ForeignKey('users.id'))
     user: Mapped['User'] = relationship(back_populates='products')

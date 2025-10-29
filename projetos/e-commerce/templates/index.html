@@ -1,11 +1,11 @@
 {% extends "base.html" %}
-
+{% block title %}Lojinha{% endblock title %}
 {% block head %}
-    {% block title %}Lojinha{% endblock title %}
+    
     <link rel="stylesheet" href="{{ url_for('static', filename='style/index.css') }}">
 {% endblock head %}
 {% block content %}
-
+    {% include "components/flash.html" %}
     <h1>Bem-vindo a nossa loja!</h1>
 
 {% endblock content %}
