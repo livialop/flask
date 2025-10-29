@@ -1,0 +1,25 @@
+@import 'base.css';
+
+.view-products-page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.product-item,
+.product-detail {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 16px;
+  box-shadow: var(--shadow);
+}
+
+.product-item h2 {
+  margin: 0 0 6px;
+  color: var(--accent-dark);
+}
+
+.product-detail {
+  max-width: 720px;
+  margin: 0 auto;
+}

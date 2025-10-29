@@ -1,0 +1,157 @@
+:root {
+  --bg: #f8f9fa;
+  --text: #1f2937;
+  --card: #ffffff;
+  --accent: #0077ff;
+  --accent-dark: #0057cc;
+  --muted: #6b7280;
+  --success: #16a34a;
+  --danger: #dc2626;
+  --radius: 10px;
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Inter", system-ui, sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===== NAVBAR ===== */
+.main-header {
+  background: var(--card);
+  box-shadow: var(--shadow);
+  padding: 12px 24px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.main-nav {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.nav-link {
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 600;
+  padding: 8px 14px;
+  border-radius: var(--radius);
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.nav-link:hover {
+  background: var(--accent);
+  color: white;
+}
+
+.logout {
+  color: var(--danger);
+}
+
+.logout:hover {
+  background: var(--danger);
+  color: white;
+}
+
+/* ===== CONTENT ===== */
+main.content {
+  flex: 1;
+  padding: 32px 16px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* ===== BUTTONS ===== */
+.btn {
+  display: inline-block;
+  padding: 10px 14px;
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: var(--radius);
+  text-decoration: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.btn:hover {
+  background: var(--accent-dark);
+  transform: translateY(-1px);
+}
+
+/* ===== FORMS ===== */
+input, textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: var(--radius);
+  border: 1px solid #d1d5db;
+  margin-top: 4px;
+  font-size: 1rem;
+}
+
+label {
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.auth-box {
+  background: var(--card);
+  padding: 24px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+/* ===== FLASH MESSAGES ===== */
+.flash {
+  padding: 10px 12px;
+  border-radius: var(--radius);
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+
+.flash.success {
+  background: #dcfce7;
+  color: var(--success);
+  border: 1px solid #bbf7d0;
+}
+
+.flash.error {
+  background: #fee2e2;
+  color: var(--danger);
+  border: 1px solid #fecaca;
+}
+
+/* ===== FOOTER ===== */
+.main-footer {
+  text-align: center;
+  padding: 16px;
+  background: var(--card);
+  color: var(--muted);
+  box-shadow: var(--shadow);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 640px) {
+  .main-nav {
+    gap: 10px;
+  }
+
+  main.content {
+    padding: 20px 12px;
+  }
+}

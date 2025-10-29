@@ -1,0 +1,21 @@
+@import 'base.css';
+
+.auth-box form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-label {
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: var(--accent-dark);
+}

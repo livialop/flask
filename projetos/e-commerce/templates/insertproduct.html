@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+
+{% block head %}
+    {% block title %} Insert Product {% endblock title %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/insertproduct.css') }}">
+{% endblock head %}
+
+{% block content %}
+    <div class="auth-box">
+        <h2 class="text-center font-semibold text-lg mb-2">Insira novos produtos</h2>
+        {# Exibe mensagens flash, se houver #}
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul class="flashes">
+                    {% for category, msg in messages %}
+                        <li class="flash {{ category }}">{{ msg }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+
+        <nav class="products-nav mb-3">
+            <a class="btn" href="{{ url_for('products.buyproducts') }}">Todos</a>
+            <a class="btn" href="{{ url_for('products.insertproduct') }}">Inserir</a>
+            {% if current_user and current_user.is_authenticated %}
+                <a class="btn" href="{{ url_for('products.viewproducts', user_id=current_user.id) }}">Meus</a>
+            {% endif %}
+        </nav>
+
+        <form method="POST" action="{{ url_for('products.insertproduct') }}" class="flex flex-col gap-3 mt-3">
+            <div>
+            <label class="form-label">Nome</label>
+            <input type="name" name="nome" class="input" required>
+            </div>
+
+            <div>
+            <label class="form-label">Descrição</label>
+            <input type="name" name="descricao" class="input" maxlength="120" required>
+            </div>
+
+            <div>
+            <label class="form-label">Preço</label>
+            <input type="number" name="preco" class="input" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary mt-3 w-full">Submeter produto</button>
+        </form>
+
+    </div>
+{% endblock content %}

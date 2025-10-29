@@ -1,4 +1,4 @@
-from database.database import *
+from models.database import *
 from werkzeug.security import check_password_hash, generate_password_hash
 
 def verify_password(senha_plain: str, senha_hash: str) -> bool:

@@ -1,3 +1,3 @@
 from flask import Flask
 
-from database.database import User, session, Product
+from models.database import User, session, Product

@@ -1,0 +1,25 @@
+@import 'base.css';
+
+.auth-box h2 {
+  text-align: center;
+  color: var(--accent-dark);
+  margin-bottom: 12px;
+}
+
+.auth-box form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.text-muted {
+  color: var(--muted);
+}
+
+.text-primary {
+  color: var(--accent);
+}
+
+.text-primary:hover {
+  text-decoration: underline;
+}
