@@ -12,7 +12,7 @@
         <header class="products-header">
             <h1>Produtos disponíveis</h1>
             <nav class="products-nav">
-                {% if current_user and current_user.is_authenticated %}
+                {% if current_user.is_authenticated %}
                     <a class="btn" href="{{ url_for('products.buyproducts') }}">Todos</a>
                     <a class="btn" href="{{ url_for('products.insertproduct') }}">Inserir</a>
                     <a class="btn" href="{{ url_for('products.viewproducts', user_id=current_user.id) }}">Meus</a>
