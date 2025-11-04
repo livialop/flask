@@ -10,3 +10,5 @@
 
 ## Em andamento
 * Fazendo as rotas
+* Mudando todas as operações para utilizar sql puro -_-
+* app.py, config, database feitos

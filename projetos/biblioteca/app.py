@@ -10,4 +10,4 @@ app.register_blueprint(controllers.main.main_bp)
 config.config(app)
 
 if __name__ == '__main__':
-    config.start_database(app)
+    config.start_database()
