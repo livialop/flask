@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS Usuarios (
     Nome_usuario VARCHAR(255) NOT NULL,
     Email VARCHAR(255),
     Numero_telefone VARCHAR(15),
-    Data_inscricao DATE DEFAULT CURRENT_DATE,
+    Data_inscricao DATE DEFAULT (CURRENT_DATE()),
     Multa_atual DECIMAL(10, 2)
 );
 

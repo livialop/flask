@@ -8,8 +8,8 @@
     <h1>Página Inicial</h1>
     <p>Isso é um estudo para a prova de PSI</p>
 
-    {% include "flash.html" %}
+    {% include "components/flash.html" %}
 
-    <a href="{{ url_for('register') }}"><button> Register </button></a>
-    <a href="{{ url_for('login') }}"><button> Login </button></a>
+    <a href="{{ url_for('auth.register') }}"><button> Register </button></a>
+    <a href="{{ url_for('auth.login') }}"><button> Login </button></a>
 {% endblock content %}

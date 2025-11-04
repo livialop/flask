@@ -38,7 +38,7 @@ def add_livro():
     
     return render_template('add_livro.html')
 
-@livros_bp('/view_livros')
+@livros_bp.route('/view_livros')
 @login_required
 def view_livro():
     query = text("SELECT * FROM livros;")

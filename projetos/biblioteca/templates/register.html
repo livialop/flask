@@ -5,7 +5,8 @@
 {% endblock head %}
 
 {% block content %}
-    <form action="{{ url_for('register')}}" method="post">
+    {% include "components/flash.html" %}
+    <form action="{{ url_for('auth.register')}}" method="post">
         <label for="nome">Nome:</label>
         <input type="text" name="nome" placeholder="nome" required>
 
