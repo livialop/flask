@@ -1,15 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     {% block head %}
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>{% block title %} {% endblock title %}</title>
+        <title>{% block title %}{% endblock title %}</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='style/base.css') }}">
     {% endblock head %}
 </head>
 <body>
-    {% block content %}
-    
-    {% endblock content %}
+    <header class="main-header">
+        <nav class="main-nav">
+            <a href="{{ url_for('main.index') }}" class="nav-link">Início</a>
+            <a href="{{ url_for('products.buyproducts') }}" class="nav-link">Produtos</a>
+            {% if current_user.is_authenticated %}
+                <a href="{{ url_for('products.insertproduct') }}" class="nav-link">Inserir</a>
+                <a href="{{ url_for('products.viewproducts') }}" class="nav-link">Produtos Comprados</a>
+                <a href="{{ url_for('auth.logout') }}" class="nav-link logout">Sair</a>
+            {% else %}
+                <a href="{{ url_for('auth.login') }}" class="nav-link">Login</a>
+                <a href="{{ url_for('auth.register') }}" class="nav-link">Cadastrar</a>
+            {% endif %}
+        </nav>
+    </header>
+
+    <main class="content">
+        {% block content %}
+        {% endblock content %}
+    </main>
+
+    <footer class="main-footer">
+        <p> Lojinha Flask</p>
+    </footer>
 </body>
 </html>

@@ -1,0 +1,14 @@
+@import 'base.css';
+
+h1 {
+  text-align: center;
+  color: var(--accent-dark);
+  font-size: 2rem;
+}
+
+.welcome {
+  text-align: center;
+  margin-top: 20px;
+  color: var(--muted);
+  font-size: 1.1rem;
+}

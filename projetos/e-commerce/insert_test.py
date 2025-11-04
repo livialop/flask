@@ -1,5 +1,5 @@
 from sqlalchemy import insert
-from database.database import session, Product, User
+from models.database import session, Product, User
 # Fazer os inserts de produtos aqui
 # 1 insert deu certo. Pedir ao chat para fazer inserts depois
 

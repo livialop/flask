@@ -1,7 +1,7 @@
 {% extends "base.html" %}
-
+{% block title %} Cadastro {% endblock title %}
 {% block head %}
-    {% block title %} Cadastro {% endblock title %}
+    {{ super() }}   
     <link rel="stylesheet" href="{{ url_for('static', filename='style/auth.css') }}">
 {% endblock head %}
 

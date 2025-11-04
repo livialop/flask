@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %} View Products {% endblock title %}
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/viewproducts.css') }}">
+{% endblock head %}
+
+{% block content %}
+    {% include "components/flash.html" %}
+    <div class="view-products-page">
+        <header>
+            <h1>Visualizar produtos</h1>
+            <nav class="products-nav">
+                <a class="btn" href="{{ url_for('products.buyproducts') }}">Todos</a>
+                <a class="btn" href="{{ url_for('products.insertproduct') }}">Inserir</a>
+                <a class="btn" href="{{ url_for('products.viewproducts', user_id=current_user.id) }}">Meus</a>
+            </nav>
+        </header>
+
+        {% if produtos %}
+            <div class="product-list">
+                {% for p in produtos %}
+                    <div class="product-item">
+                        <h2>{{ p.nome }}</h2>
+                        <p>{{ p.descricao }}</p>
+                        <p>Preço: R$ {{ '%.2f'|format(p.preco) }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>Não há produtos para mostrar.</p>
+        {% endif %}
+    </div>
+
+{% endblock content %}

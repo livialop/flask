@@ -1,0 +1,49 @@
+@import 'base.css';
+
+.products-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.products-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.product-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.product-card {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 16px;
+  box-shadow: var(--shadow);
+  transition: transform 0.1s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-3px);
+}
+
+.product-name {
+  margin: 0 0 6px;
+  font-weight: 600;
+  color: var(--accent-dark);
+}
+
+.product-desc {
+  margin: 0 0 8px;
+  color: var(--muted);
+}
+
+.product-price {
+  color: var(--accent);
+  font-weight: 700;
+}

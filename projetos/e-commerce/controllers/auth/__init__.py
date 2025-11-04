@@ -1,6 +1,6 @@
 from flask import render_template, redirect, url_for, request, Blueprint, flash
 from flask_login import login_user, logout_user, login_required
-from database.database import User, session
+from models.database import User, session
 import models.user
 
 auth_bp = Blueprint('auth', __name__, static_folder='static', template_folder='templates')
@@ -16,7 +16,7 @@ def register():
         user_existe: User = session.query(User).filter_by(email=email).first()
 
         if user_existe:
-            flash('Email já cadastrado!')
+            flash('Email já cadastrado!', category='error')
             return redirect(url_for('auth.login'))
         
         senha_hash: str = models.user.hash_password(senha)
@@ -45,10 +45,11 @@ def login():
             login_user(user_existe)
             flash('Login feito!', category='success')
             session.close()
-            return redirect(url_for('userprofile.profile'))
+            return redirect(url_for('products.buyproducts')) # Mudar isso depois para o perfil do usuário
         # Caso senha ou email não existam
         session.close()
         flash('Email ou senha incorretos', category='error')
+        return redirect(url_for('auth.login'))
 
     return render_template('login.html')
 
