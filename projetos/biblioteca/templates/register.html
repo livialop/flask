@@ -1,16 +1,19 @@
 {% extends "base.html" %}
 
 {% block head %}
-    {% block title %} Cadastro {% endblock title %}
+    {% block title %} Register {% endblock title %}
 {% endblock head %}
 
 {% block content %}
-    <form action="{{ url_for('cadastro' )}}" method="post">
+    <form action="{{ url_for('register')}}" method="post">
         <label for="nome">Nome:</label>
         <input type="text" name="nome" placeholder="nome" required>
 
         <label for="email">Email:</label>
         <input type="text" name="email" placeholder="email" required>
+
+        <label for="senha">Número de telefone:</label>
+        <input type="text" name="numero_telefone" placeholder="número de telefone" maxlength="15">
 
         <label for="senha">Senha:</label>
         <input type="password" name="senha" placeholder="senha" required>

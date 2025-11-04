@@ -10,6 +10,6 @@
 
     {% include "flash.html" %}
 
-    <a href=""><button> Cadastro </button></a>
-    <a href=""><button> Login </button></a>
+    <a href="{{ url_for('register') }}"><button> Register </button></a>
+    <a href="{{ url_for('login') }}"><button> Login </button></a>
 {% endblock content %}

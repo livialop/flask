@@ -1,7 +1,7 @@
-CREATE DATABASE db_atividade17;
+CREATE DATABASE IF NOT EXISTS db_atividade17;
 USE db_atividade17;
 
-CREATE TABLE Autores (
+CREATE TABLE IF NOT EXISTS Autores (
     ID_autor INT AUTO_INCREMENT PRIMARY KEY,
     Nome_autor VARCHAR(255) NOT NULL,
     Nacionalidade VARCHAR(255),
@@ -9,18 +9,18 @@ CREATE TABLE Autores (
     Biografia TEXT
 );
 
-CREATE TABLE Generos (
+CREATE TABLE IF NOT EXISTS Generos (
     ID_genero INT AUTO_INCREMENT PRIMARY KEY,
     Nome_genero VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE Editoras (
+CREATE TABLE IF NOT EXISTS Editoras (
     ID_editora INT AUTO_INCREMENT PRIMARY KEY,
     Nome_editora VARCHAR(255) NOT NULL,
     Endereco_editora TEXT
 );
 
-CREATE TABLE Livros (
+CREATE TABLE IF NOT EXISTS Livros (
     ID_livro INT AUTO_INCREMENT PRIMARY KEY,
     Titulo VARCHAR(255) NOT NULL,
     Autor_id INT,
@@ -35,16 +35,16 @@ CREATE TABLE Livros (
     FOREIGN KEY (Editora_id) REFERENCES Editoras(ID_editora)
 );
 
-CREATE TABLE Usuarios (
+CREATE TABLE IF NOT EXISTS Usuarios (
     ID_usuario INT AUTO_INCREMENT PRIMARY KEY,
     Nome_usuario VARCHAR(255) NOT NULL,
     Email VARCHAR(255),
     Numero_telefone VARCHAR(15),
-    Data_inscricao DATE,
+    Data_inscricao DATE DEFAULT CURRENT_DATE,
     Multa_atual DECIMAL(10, 2)
 );
 
-CREATE TABLE Emprestimos (
+CREATE TABLE IF NOT EXISTS Emprestimos (
     ID_emprestimo INT AUTO_INCREMENT PRIMARY KEY,
     Usuario_id INT,
     Livro_id INT,
