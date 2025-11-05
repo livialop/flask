@@ -14,29 +14,44 @@ def register():
         numero_telefone: str = request.form.get('numero_telefone')
         senha: str = request.form.get('senha')
 
-        query = text(f"SELECT * FROM usuarios WHERE email = '{email}';")
+        query_user_existe = text("SELECT * FROM usuarios WHERE email = :email")
         with ENGINE.connect() as conn:
-            user_existe = conn.execute(query).fetchone()
+            user_existe = conn.execute(query_user_existe, {'email': email}).fetchone()
             if user_existe:
-                flash('Email já cadastrado!')
-                conn.close()
+                flash('Email já cadastrado!', category='error')
                 return redirect(url_for('auth.login'))
 
-            senha_hash: str = generate_password_hash(senha)
+            senha_hash = generate_password_hash(senha)
 
-            query_insert = text(f"""
-                INSERT INTO usuarios(nome_usuario, email, numero_telefone, senha) 
-                VALUES ('{nome}', '{email}', '{numero_telefone}', '{senha_hash}');
+            query_insert = text("""
+                INSERT INTO usuarios (nome_usuario, email, numero_telefone, senha)
+                VALUES (:nome, :email, :numero_telefone, :senha)
             """)
 
-            novo_user = conn.execute(query_insert)
+            conn.execute(query_insert, {
+                'nome': nome,
+                'email': email,
+                'numero_telefone': numero_telefone,
+                'senha': senha_hash
+            })
             conn.commit()
-            user = Usuario()
-            login_user(novo_user)
-            conn.close()
 
-            flash('Cadastro realizado', category='success')
-            return redirect(url_for('auth.login'))
+            query_user = text("SELECT id_usuario, nome_usuario, email, senha FROM usuarios WHERE email = :email")
+            novo_user = conn.execute(query_user, {'email': email}).mappings().fetchone()
+
+            if novo_user:
+
+                user_obj = Usuario(
+                    id_usuario=novo_user['ID_usuario'],
+                    email=novo_user['Email'],
+                    senha=novo_user['senha']
+                )
+
+                login_user(user_obj)
+
+                flash('Cadastro realizado e login efetuado com sucesso!', category='success')
+                return redirect(url_for('main.index'))
+
     return render_template('register.html')
 
 
@@ -46,17 +61,22 @@ def login():
         email: str = request.form.get('email')
         senha: str = request.form.get('senha')
 
-        query = text(f"SELECT * FROM usuarios WHERE email = '{email}';")
+        query = text("SELECT * FROM usuarios WHERE email = :email")
         with ENGINE.connect() as conn:
-            user_existe = conn.execute(query).fetchone()
-            if user_existe and check_password_hash(user_existe.senha, senha):
-                login_user(user_existe)
+            user_existe = conn.execute(query, {'email': email}).mappings().fetchone() # mappings serve p transformar em dicionario
+            print(user_existe)
+            if user_existe and check_password_hash(user_existe['senha'], senha):
+                user_obj = Usuario(
+                    id_usuario=user_existe['ID_usuario'],
+                    email=user_existe['Email'],
+                    senha=user_existe['senha']
+                )
+                login_user(user_obj)
+
                 flash('Login feito!', category='success')
-                conn.close()
                 return redirect(url_for('main.index')) # Depois mudar essa rota
             else:
                 flash('Email ou senha incorretos', category='error')
-                conn.close()
 
     return render_template('login.html')
 

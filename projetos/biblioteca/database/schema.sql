@@ -6,6 +6,7 @@ CREATE TABLE IF NOT EXISTS Autores (
     Nome_autor VARCHAR(255) NOT NULL,
     Nacionalidade VARCHAR(255),
     Data_nascimento DATE,
+    
     Biografia TEXT
 );
 

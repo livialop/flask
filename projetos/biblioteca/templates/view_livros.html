@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Livros - Lista</title>
+  <link rel="stylesheet" href="/static/style/base.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="p-4">
+  <div class="container">
+    <h1>Livros</h1>
+
+    <p class="mb-3">
+      <a class="btn btn-primary" href="{{ url_for('livros.add_livro') }}">Adicionar Livro</a>
+    </p>
+
+    <table class="table table-striped table-sm">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Título</th>
+          <th>Autor</th>
+          <th>ISBN</th>
+          <th>Ano</th>
+          <th>Gênero</th>
+          <th>Editora</th>
+          <th>Qtd</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for l in livros %}
+        <tr>
+          <td>{{ l.ID_livro }}</td>
+          <td>{{ l.Titulo }}</td>
+          <td>{{ l.Autor_nome if l.Autor_nome is defined else l.Nome_autor if l.Nome_autor is defined else l.Autor_id }}</td>
+          <td>{{ l.ISBN }}</td>
+          <td>{{ l.Ano_publicacao }}</td>
+          <td>{{ l.Genero_nome if l.Genero_nome is defined else l.Nome_genero if l.Nome_genero is defined else l.Genero_id }}</td>
+          <td>{{ l.Editora_nome if l.Editora_nome is defined else l.Nome_editora if l.Nome_editora is defined else l.Editora_id }}</td>
+          <td>{{ l.Quantidade_disponivel }}</td>
+          <td>
+            <a class="btn btn-sm btn-secondary" href="{{ url_for('livros.update_livro', id=l.ID_livro) }}">Editar</a>
+            <a class="btn btn-sm btn-danger" href="{{ url_for('livros.delete_livro', id=l.ID_livro) }}">Excluir</a>
+          </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="9" class="text-center">Nenhum livro encontrado.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>

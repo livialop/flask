@@ -1,0 +1,19 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Excluir Livro</title>
+  <link rel="stylesheet" href="/static/style/base.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="p-4">
+  <div class="container">
+    <h1>Excluir Livro</h1>
+    <p>Tem certeza que deseja excluir o livro <strong>{{ livro.Titulo }}</strong> (ID {{ livro.ID_livro }})?</p>
+    <form method="post" action="{{ url_for('livro.delete_livro', id=livro.ID_livro) }}">
+      <button class="btn btn-danger" type="submit">Excluir</button>
+      <a class="btn btn-secondary" href="{{ url_for('livro.view_livros') }}">Cancelar</a>
+    </form>
+  </div>
+</body>
+</html>
