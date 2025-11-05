@@ -14,7 +14,7 @@ def register():
         numero_telefone: str = request.form.get('numero_telefone')
         senha: str = request.form.get('senha')
 
-        query_user_existe = text("SELECT * FROM usuarios WHERE email = :email")
+        query_user_existe = text("SELECT * FROM Usuarios WHERE Email = :email")
         with ENGINE.connect() as conn:
             user_existe = conn.execute(query_user_existe, {'email': email}).fetchone()
             if user_existe:
@@ -24,7 +24,7 @@ def register():
             senha_hash = generate_password_hash(senha)
 
             query_insert = text("""
-                INSERT INTO usuarios (nome_usuario, email, numero_telefone, senha)
+                INSERT INTO Usuarios (Nome_usuario, Email, Numero_telefone, senha)
                 VALUES (:nome, :email, :numero_telefone, :senha)
             """)
 
@@ -36,7 +36,7 @@ def register():
             })
             conn.commit()
 
-            query_user = text("SELECT id_usuario, nome_usuario, email, senha FROM usuarios WHERE email = :email")
+            query_user = text("SELECT * FROM Usuarios WHERE Email = :email")
             novo_user = conn.execute(query_user, {'email': email}).mappings().fetchone()
 
             if novo_user:
@@ -61,7 +61,7 @@ def login():
         email: str = request.form.get('email')
         senha: str = request.form.get('senha')
 
-        query = text("SELECT * FROM usuarios WHERE email = :email")
+        query = text("SELECT * FROM Usuarios WHERE Email = :email")
         with ENGINE.connect() as conn:
             user_existe = conn.execute(query, {'email': email}).mappings().fetchone() # mappings serve p transformar em dicionario
             print(user_existe)

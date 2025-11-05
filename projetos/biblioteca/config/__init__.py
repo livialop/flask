@@ -24,7 +24,7 @@ def config(app: Flask):
 
     @login_manager.user_loader
     def load_user(user_id):
-        query = text(f"SELECT id_usuario, email, senha FROM usuarios WHERE id_usuario = {user_id};")
+        query = text(f"SELECT ID_usuario, Email, senha FROM Usuarios WHERE id_usuario = {user_id};")
         with ENGINE.connect() as conn:
             result = conn.execute(query).fetchone()
             if result:

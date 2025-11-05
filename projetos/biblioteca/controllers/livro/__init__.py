@@ -20,10 +20,10 @@ def add_livro():
         resumo: str = request.form.get('resumo')
 
         query_insert = text(f"""
-            INSERT INTO autores(nome_autor) VALUES ('{autor}');
-            INSERT INTO editoras(nome_editora) VALUES ('{editora}');
-            INSERT INTO livros(titulo, autor_id, isbn, ano_publicacao, genero_id, editora_id, quantidade_disponivel, resumo) 
-            VALUES ('{titulo}', (SELECT ID_autor FROM autores WHERE nome_autor = '{autor}'), '{isbn}', '{ano_publicacao}', (SELECT ID_genero FROM generos WHERE nome_genero = '{genero}'), (SELECT ID_editora FROM editoras WHERE nome_editora = '{editora}'), '{quantidade}', '{resumo}');
+            INSERT INTO Autores(Nome_autor) VALUES ('{autor}');
+            INSERT INTO Editoras(Nome_editora) VALUES ('{editora}');
+            INSERT INTO Livros(Titulo, Autor_id, ISBN, Ano_publicacao, Genero_id, Editora_id, Quantidade_disponivel, Resumo) 
+            VALUES ('{titulo}', (SELECT ID_autor FROM Autores WHERE Nome_autor = '{autor}'), '{isbn}', '{ano_publicacao}', (SELECT ID_genero FROM Generos WHERE Nome_genero = '{genero}'), (SELECT ID_editora FROM Editoras WHERE Nome_editora = '{editora}'), '{quantidade}', '{resumo}');
         """)
 
         with ENGINE.connect() as conn:
@@ -40,7 +40,7 @@ def add_livro():
 @livros_bp.route('/view_livros')
 @login_required
 def view_livro():
-    query = text("SELECT * FROM livros;")
+    query = text("SELECT * FROM Livros;")
     with ENGINE.connect() as conn:
         livros = conn.execute(query).fetchall()
         conn.close()
@@ -49,7 +49,7 @@ def view_livro():
 @livros_bp.route('/delete_livro/<int:livro_id>', methods=['POST'])
 @login_required
 def delete_livro(livro_id):
-    query_delete = text(f"DELETE FROM livros WHERE id = {livro_id};")
+    query_delete = text(f"DELETE FROM Livros WHERE ID_livro = {livro_id};")
     with ENGINE.connect() as conn:
         conn.execute(query_delete)
         conn.commit()
@@ -73,9 +73,9 @@ def update_livro(livro_id):
         resumo: str = request.form.get('resumo')
 
         query_update = text(f"""
-            UPDATE livros 
-            SET titulo = '{titulo}', autor_id = (SELECT ID_autor FROM autores WHERE nome_autor = '{autor}'), isbn = '{isbn}', ano_publicacao = {ano_publicacao}, genero_id = (SELECT ID_genero FROM generos WHERE nome_genero = '{genero}'), editora_id = (SELECT ID_editora FROM editoras WHERE nome_editora = '{editora}'), quantidade_disponivel = {quantidade}, resumo = '{resumo}'
-            WHERE id = {livro_id};
+            UPDATE Livros
+            SET Titulo = '{titulo}', Autor_id = (SELECT ID_autor FROM Autores WHERE Nome_autor = '{autor}'), ISBN = '{isbn}', Ano_publicacao = {ano_publicacao}, Genero_id = (SELECT ID_genero FROM Generos WHERE Nome_genero = '{genero}'), Editora_id = (SELECT ID_editora FROM Editoras WHERE Nome_editora = '{editora}'), Quantidade_disponivel = {quantidade}, Resumo = '{resumo}'
+            WHERE ID_livro = {livro_id};
         """)
 
         with ENGINE.connect() as conn:
