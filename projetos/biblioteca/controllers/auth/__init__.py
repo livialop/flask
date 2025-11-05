@@ -1,13 +1,10 @@
 from flask import render_template, redirect, url_for, request, Blueprint, flash
 from flask_login import login_user, logout_user, login_required
-from sqlalchemy import create_engine, text
+from sqlalchemy import text
 from werkzeug.security import generate_password_hash, check_password_hash
+from config import Usuario, ENGINE
 
 auth_bp = Blueprint('auth', __name__, static_folder='static', template_folder='templates')
-
-# Se o seu root não tiver senha, tire o 1234 da parte do 'root:1234@localhost:3306'
-# Se a porta do seu banco de dados for 3307, mude o 3306 para 3307.
-ENGINE = create_engine('mysql+mysqldb://root:1234@localhost:3306/db_atividade17')
 
 @auth_bp.route('/register', methods=['GET', 'POST'])
 def register():
@@ -17,9 +14,9 @@ def register():
         numero_telefone: str = request.form.get('numero_telefone')
         senha: str = request.form.get('senha')
 
-        query = text("SELECT * FROM usuarios WHERE email = ?;")
+        query = text(f"SELECT * FROM usuarios WHERE email = '{email}';")
         with ENGINE.connect() as conn:
-            user_existe = conn.execute(query, email).fetchone()
+            user_existe = conn.execute(query).fetchone()
             if user_existe:
                 flash('Email já cadastrado!')
                 conn.close()
@@ -27,14 +24,14 @@ def register():
 
             senha_hash: str = generate_password_hash(senha)
 
-            query_insert = text("""
-                INSERT INTO usuarios(nome, email, numero_telefone, senha) 
-                VALUES (?, ?, ?, ?, ?);
+            query_insert = text(f"""
+                INSERT INTO usuarios(nome_usuario, email, numero_telefone, senha) 
+                VALUES ('{nome}', '{email}', '{numero_telefone}', '{senha_hash}');
             """)
 
-            novo_user = conn.execute(query_insert, nome, email, numero_telefone, senha_hash)
-            conn.add(novo_user)
+            novo_user = conn.execute(query_insert)
             conn.commit()
+            user = Usuario()
             login_user(novo_user)
             conn.close()
 
@@ -49,9 +46,9 @@ def login():
         email: str = request.form.get('email')
         senha: str = request.form.get('senha')
 
-        query = text("SELECT * FROM usuarios WHERE email = ?;")
+        query = text(f"SELECT * FROM usuarios WHERE email = '{email}';")
         with ENGINE.connect() as conn:
-            user_existe = conn.execute(query, email).fetchone()
+            user_existe = conn.execute(query).fetchone()
             if user_existe and check_password_hash(user_existe.senha, senha):
                 login_user(user_existe)
                 flash('Login feito!', category='success')

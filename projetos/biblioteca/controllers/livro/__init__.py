@@ -1,13 +1,10 @@
 from flask import render_template, redirect, url_for, request, Blueprint, flash
 from flask_login import login_required
-from sqlalchemy import create_engine, text
+from sqlalchemy import text
+from config import Usuario, ENGINE
 
 
 livros_bp = Blueprint('livros', __name__, static_folder='static', template_folder='templates')
-
-# Se o seu root não tiver senha, tire o 1234 da parte do 'root:1234@localhost:3306'
-# Se a porta do seu banco de dados for 3307, mude o 3306 para 3307.
-ENGINE = create_engine('mysql+mysqldb://root:1234@localhost:3306/db_atividade17')
 
 @livros_bp.route('/add_livro', methods=['GET', 'POST'])
 @login_required
@@ -22,13 +19,15 @@ def add_livro():
         quantidade: int = request.form.get('quantidade')
         resumo: str = request.form.get('resumo')
 
-        query_insert = text("""
-            INSERT INTO livros(titulo, autor, isbn, ano_publicacao, genero, editora, quantidade, resumo) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?);
+        query_insert = text(f"""
+            INSERT INTO autores(nome_autor) VALUES ('{autor}');
+            INSERT INTO editoras(nome_editora) VALUES ('{editora}');
+            INSERT INTO livros(titulo, autor_id, isbn, ano_publicacao, genero_id, editora_id, quantidade_disponivel, resumo) 
+            VALUES ('{titulo}', (SELECT ID_autor FROM autores WHERE nome_autor = '{autor}'), '{isbn}', '{ano_publicacao}', (SELECT ID_genero FROM generos WHERE nome_genero = '{genero}'), (SELECT ID_editora FROM editoras WHERE nome_editora = '{editora}'), '{quantidade}', '{resumo}');
         """)
 
         with ENGINE.connect() as conn:
-            novo_livro = conn.execute(query_insert, titulo, autor, isbn, ano_publicacao, genero, editora, quantidade, resumo)
+            novo_livro = conn.execute(query_insert)
             conn.add(novo_livro)
             conn.commit()
             conn.close()
@@ -50,9 +49,9 @@ def view_livro():
 @livros_bp.route('/delete_livro/<int:livro_id>', methods=['POST'])
 @login_required
 def delete_livro(livro_id):
-    query_delete = text("DELETE FROM livros WHERE id = ?;")
+    query_delete = text(f"DELETE FROM livros WHERE id = {livro_id};")
     with ENGINE.connect() as conn:
-        conn.execute(query_delete, livro_id)
+        conn.execute(query_delete)
         conn.commit()
         conn.close()
     
@@ -73,14 +72,14 @@ def update_livro(livro_id):
         quantidade: int = request.form.get('quantidade')
         resumo: str = request.form.get('resumo')
 
-        query_update = text("""
+        query_update = text(f"""
             UPDATE livros 
-            SET titulo = ?, autor = ?, isbn = ?, ano_publicacao = ?, genero = ?, editora = ?, quantidade = ?, resumo = ?
-            WHERE id = ?;
+            SET titulo = '{titulo}', autor_id = (SELECT ID_autor FROM autores WHERE nome_autor = '{autor}'), isbn = '{isbn}', ano_publicacao = {ano_publicacao}, genero_id = (SELECT ID_genero FROM generos WHERE nome_genero = '{genero}'), editora_id = (SELECT ID_editora FROM editoras WHERE nome_editora = '{editora}'), quantidade_disponivel = {quantidade}, resumo = '{resumo}'
+            WHERE id = {livro_id};
         """)
 
         with ENGINE.connect() as conn:
-            conn.execute(query_update, titulo, autor, isbn, ano_publicacao, genero, editora, quantidade, resumo, livro_id)
+            conn.execute(query_update)
             conn.commit()
             conn.close()
 

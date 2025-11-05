@@ -1,4 +1,4 @@
-CREATE DATABASE IF NOT EXISTS db_atividade17;
+CREATE SCHEMA IF NOT EXISTS db_atividade17;
 USE db_atividade17;
 
 CREATE TABLE IF NOT EXISTS Autores (
@@ -40,6 +40,7 @@ CREATE TABLE IF NOT EXISTS Usuarios (
     Nome_usuario VARCHAR(255) NOT NULL,
     Email VARCHAR(255),
     Numero_telefone VARCHAR(15),
+    senha VARCHAR(255) NOT NULL,
     Data_inscricao DATE DEFAULT (CURRENT_DATE()),
     Multa_atual DECIMAL(10, 2)
 );
