@@ -12,45 +12,44 @@
     <form method="post" action="{{ url_for('livros.add_livro') }}">
       <div class="mb-3">
         <label class="form-label">Título</label>
-        <input class="form-control" name="Titulo" required>
+        <input class="form-control" name="titulo" required>
       </div>
+
       <div class="mb-3">
         <label class="form-label">Autor</label>
-        <select class="form-select" name="Autor_id">
-          <option value="">-- selecione --</option>
-          {% for a in autores %}<option value="{{ a.ID_autor }}">{{ a.Nome_autor }}</option>{% endfor %}
-        </select>
+        <input class="form-control" name="autor" >
       </div>
+
       <div class="mb-3">
         <label class="form-label">ISBN</label>
-        <input class="form-control" name="ISBN" maxlength="13" required>
+        <input class="form-control" name="isbn" maxlength="13" required>
       </div>
+
       <div class="mb-3">
         <label class="form-label">Ano de publicação</label>
-        <input class="form-control" type="number" name="Ano_publicacao">
+        <input class="form-control" type="number" name="ano_publicacao">
       </div>
+
       <div class="mb-3">
         <label class="form-label">Gênero</label>
-        <select class="form-select" name="Genero_id">
-          <option value="">-- selecione --</option>
-          {% for g in generos %}<option value="{{ g.ID_genero }}">{{ g.Nome_genero }}</option>{% endfor %}
-        </select>
+        <input class="form-control" name="genero" >
       </div>
+
       <div class="mb-3">
         <label class="form-label">Editora</label>
-        <select class="form-select" name="Editora_id">
-          <option value="">-- selecione --</option>
-          {% for e in editoras %}<option value="{{ e.ID_editora }}">{{ e.Nome_editora }}</option>{% endfor %}
-        </select>
+        <input class="form-control" name="editora" >
       </div>
+
       <div class="mb-3">
         <label class="form-label">Quantidade disponível</label>
-        <input class="form-control" type="number" name="Quantidade_disponivel" value="1" min="0">
+        <input class="form-control" type="number" name="quantidade" value="1" min="0">
       </div>
+
       <div class="mb-3">
         <label class="form-label">Resumo</label>
-        <textarea class="form-control" name="Resumo"></textarea>
+        <textarea class="form-control" name="resumo"></textarea>
       </div>
+
       <button class="btn btn-success" type="submit">Salvar</button>
       <a class="btn btn-secondary" href="{{ url_for('livros.view_livro') }}">Cancelar</a>
     </form>
