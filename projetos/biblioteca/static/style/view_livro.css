@@ -1,0 +1,26 @@
+
+body {
+  background-color: #f4f9f4;
+}
+
+h1 {
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.table th {
+  background-color: #0077cc;
+  color: white;
+}
+
+.table td {
+  vertical-align: middle;
+}
+
+.btn-primary {
+  margin-bottom: 10px;
+}
+
+.btn-sm {
+  margin-right: 5px;
+}

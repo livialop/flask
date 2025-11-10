@@ -1,0 +1,24 @@
+body {
+  background-color: #fdfdfd;
+}
+
+h1 {
+  color: #28a745;
+  margin-bottom: 20px;
+}
+
+form .form-label {
+  font-weight: bold;
+}
+
+form .form-control {
+  border-radius: 6px;
+}
+
+.btn-success {
+  background-color: #28a745;
+}
+
+.btn-secondary {
+  margin-left: 10px;
+}

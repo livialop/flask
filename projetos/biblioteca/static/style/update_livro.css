@@ -1,0 +1,25 @@
+
+body {
+  background-color: #fffdf5;
+}
+
+h1 {
+  color: #0d6efd;
+  margin-bottom: 20px;
+}
+
+form .form-label {
+  font-weight: bold;
+}
+
+form .form-control {
+  border-radius: 6px;
+}
+
+.btn-primary {
+  background-color: #0d6efd;
+}
+
+.btn-secondary {
+  margin-left: 10px;
+}

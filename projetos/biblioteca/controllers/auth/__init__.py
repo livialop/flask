@@ -50,7 +50,7 @@ def register():
                 login_user(user_obj)
 
                 flash('Cadastro realizado e login efetuado com sucesso!', category='success')
-                return redirect(url_for('main.index'))
+                return redirect(url_for('auth.login'))
 
     return render_template('register.html')
 
@@ -74,7 +74,7 @@ def login():
                 login_user(user_obj)
 
                 flash('Login feito!', category='success')
-                return redirect(url_for('main.index')) # Depois mudar essa rota
+                return redirect(url_for('livros.view_livro')) # Depois mudar essa rota
             else:
                 flash('Email ou senha incorretos', category='error')
 
