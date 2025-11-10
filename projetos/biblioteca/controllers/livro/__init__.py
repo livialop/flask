@@ -104,11 +104,10 @@ def view_livro():
 @livros_bp.route('/delete_livro/<int:livro_id>', methods=['POST'])
 @login_required
 def delete_livro(livro_id):
-    query_delete = text(f"DELETE FROM Livros WHERE ID_livro = {livro_id};")
+    query_delete = text(f"DELETE FROM Livros WHERE ID_livro = :livro_id;")
     with ENGINE.connect() as conn:
-        conn.execute(query_delete)
+        conn.execute(query_delete, {"livro_id": livro_id})
         conn.commit()
-        conn.close()
     
     flash('Livro deletado com sucesso!', category='success')
     return redirect(url_for('livros.view_livro'))
@@ -141,4 +140,7 @@ def update_livro(livro_id):
             flash('Livro atualizado com sucesso!', category='success')
             return redirect(url_for('livros.view_livro'))
         
-    return render_template('update_livro.html', livro_id=livro_id)
+    query_select = text(f"SELECT * FROM Livros WHERE ID_livro = :livro_id;")
+    with ENGINE.connect() as conn:
+        livro = conn.execute(query_select, {"livro_id": livro_id}).mappings().fetchone()
+    return render_template('update_livro.html', livro=livro)

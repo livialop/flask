@@ -33,15 +33,17 @@
         <tr>
           <td>{{ l.ID_livro }}</td>
           <td>{{ l.Titulo }}</td>
-          <td>{{ l.Autor_nome if l.Autor_nome is defined else l.Nome_autor if l.Nome_autor is defined else l.Autor_id }}</td>
+          <td>{{ l.Autor_nome }}</td>
           <td>{{ l.ISBN }}</td>
           <td>{{ l.Ano_publicacao }}</td>
-          <td>{{ l.Genero_nome if l.Genero_nome is defined else l.Nome_genero if l.Nome_genero is defined else l.Genero_id }}</td>
-          <td>{{ l.Editora_nome if l.Editora_nome is defined else l.Nome_editora if l.Nome_editora is defined else l.Editora_id }}</td>
+          <td>{{ l.Genero_nome }}</td>
+          <td>{{ l.Editora_nome }}</td>
           <td>{{ l.Quantidade_disponivel }}</td>
           <td>
             <a class="btn btn-sm btn-secondary" href="{{ url_for('livros.update_livro', livro_id=l.ID_livro) }}">Editar</a>
-            <a class="btn btn-sm btn-danger" href="{{ url_for('livros.delete_livro', livro_id=l.ID_livro) }}">Excluir</a>
+            <form action="{{ url_for('livros.delete_livro', livro_id=l.ID_livro) }}" method="post">
+              <button type="submit" class="btn btn-sm btn-danger">Excluir</button>
+            </form>
           </td>
         </tr>
         {% else %}
