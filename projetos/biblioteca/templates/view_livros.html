@@ -40,8 +40,8 @@
           <td>{{ l.Editora_nome if l.Editora_nome is defined else l.Nome_editora if l.Nome_editora is defined else l.Editora_id }}</td>
           <td>{{ l.Quantidade_disponivel }}</td>
           <td>
-            <a class="btn btn-sm btn-secondary" href="{{ url_for('livros.update_livro', id=l.ID_livro) }}">Editar</a>
-            <a class="btn btn-sm btn-danger" href="{{ url_for('livros.delete_livro', id=l.ID_livro) }}">Excluir</a>
+            <a class="btn btn-sm btn-secondary" href="{{ url_for('livros.update_livro', livro_id=l.ID_livro) }}">Editar</a>
+            <a class="btn btn-sm btn-danger" href="{{ url_for('livros.delete_livro', livro_id=l.ID_livro) }}">Excluir</a>
           </td>
         </tr>
         {% else %}

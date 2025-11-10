@@ -19,79 +19,78 @@ def add_livro():
         quantidade = request.form.get('quantidade')
         resumo = request.form.get('resumo')
 
-    with ENGINE.begin() as conn:
-            autor_id = None
-            if autor_nome:
-                result = conn.execute(text(
-                    "SELECT ID_autor FROM Autores WHERE Nome_autor = :nome"
-                ), {"nome": autor_nome}).fetchone()
-
-                if result: # se já existir no banco de dados
-                    autor_id = result[0]
-                else: # se não existir, adiciona
-                    conn.execute(text(
-                        "INSERT INTO Autores (Nome_autor) VALUES (:nome)"
-                    ), {"nome": autor_nome})
-                    
+        with ENGINE.begin() as conn:
+                autor_id = None
+                if autor_nome:
                     result = conn.execute(text(
                         "SELECT ID_autor FROM Autores WHERE Nome_autor = :nome"
                     ), {"nome": autor_nome}).fetchone()
-                    autor_id = result[0]
 
-            # aqui faz a repetição do mesmo feito acima, só que para genero e depois para editora
-            genero_id = None
-            if genero_nome:
-                result = conn.execute(text(
-                    "SELECT ID_genero FROM Generos WHERE Nome_genero = :nome"
-                ), {"nome": genero_nome}).fetchone()
+                    if result: # se já existir no banco de dados
+                        autor_id = result[0]
+                    else: # se não existir, adiciona
+                        conn.execute(text(
+                            "INSERT INTO Autores (Nome_autor) VALUES (:nome)"
+                        ), {"nome": autor_nome})
+                        
+                        result = conn.execute(text(
+                            "SELECT ID_autor FROM Autores WHERE Nome_autor = :nome"
+                        ), {"nome": autor_nome}).fetchone()
+                        autor_id = result[0]
 
-                if result:
-                    genero_id = result[0]
-                else:
-                    conn.execute(text(
-                        "INSERT INTO Generos (Nome_genero) VALUES (:nome)"
-                    ), {"nome": genero_nome})
+                # aqui faz a repetição do mesmo feito acima, só que para genero e depois para editora
+                genero_id = None
+                if genero_nome:
                     result = conn.execute(text(
                         "SELECT ID_genero FROM Generos WHERE Nome_genero = :nome"
                     ), {"nome": genero_nome}).fetchone()
-                    genero_id = result[0]
 
-            editora_id = None
-            if editora_nome:
-                result = conn.execute(text(
-                    "SELECT ID_editora FROM Editoras WHERE Nome_editora = :nome"
-                ), {"nome": editora_nome}).fetchone()
+                    if result:
+                        genero_id = result[0]
+                    else:
+                        conn.execute(text(
+                            "INSERT INTO Generos (Nome_genero) VALUES (:nome)"
+                        ), {"nome": genero_nome})
+                        result = conn.execute(text(
+                            "SELECT ID_genero FROM Generos WHERE Nome_genero = :nome"
+                        ), {"nome": genero_nome}).fetchone()
+                        genero_id = result[0]
 
-                if result:
-                    editora_id = result[0]
-                else:
-                    conn.execute(text(
-                        "INSERT INTO Editoras (Nome_editora) VALUES (:nome)"
-                    ), {"nome": editora_nome})
+                editora_id = None
+                if editora_nome:
                     result = conn.execute(text(
                         "SELECT ID_editora FROM Editoras WHERE Nome_editora = :nome"
                     ), {"nome": editora_nome}).fetchone()
-                    editora_id = result[0]
 
-            # após isso, insere a informacao no banco de dados
-            conn.execute(text("""
-                INSERT INTO Livros 
-                (Titulo, Autor_id, ISBN, Ano_publicacao, Genero_id, Editora_id, Quantidade_disponivel, Resumo)
-                VALUES (:titulo, :autor, :isbn, :ano, :genero, :editora, :quantidade, :resumo)
-            """), {
-                "titulo": titulo,
-                "autor": autor_id,
-                "isbn": isbn,
-                "ano": ano,
-                "genero": genero_id,
-                "editora": editora_id,
-                "quantidade": quantidade,
-                "resumo": resumo
-            })
+                    if result:
+                        editora_id = result[0]
+                    else:
+                        conn.execute(text(
+                            "INSERT INTO Editoras (Nome_editora) VALUES (:nome)"
+                        ), {"nome": editora_nome})
+                        result = conn.execute(text(
+                            "SELECT ID_editora FROM Editoras WHERE Nome_editora = :nome"
+                        ), {"nome": editora_nome}).fetchone()
+                        editora_id = result[0]
 
-            flash(f"Livro '{titulo}' adicionado com sucesso.", 'success')
-            return redirect(url_for('livros.view_livro'))
+                # após isso, insere a informacao no banco de dados
+                conn.execute(text("""
+                    INSERT INTO Livros 
+                    (Titulo, Autor_id, ISBN, Ano_publicacao, Genero_id, Editora_id, Quantidade_disponivel, Resumo)
+                    VALUES (:titulo, :autor, :isbn, :ano, :genero, :editora, :quantidade, :resumo)
+                """), {
+                    "titulo": titulo,
+                    "autor": autor_id,
+                    "isbn": isbn,
+                    "ano": ano,
+                    "genero": genero_id,
+                    "editora": editora_id,
+                    "quantidade": quantidade,
+                    "resumo": resumo
+                })
 
+                flash(f"Livro '{titulo}' adicionado com sucesso.", 'success')
+                return redirect(url_for('livros.view_livro'))
     return render_template('add_livro.html')
 
 @livros_bp.route('/view_livros')

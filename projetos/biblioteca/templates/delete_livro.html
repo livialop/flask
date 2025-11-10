@@ -10,9 +10,9 @@
   <div class="container">
     <h1>Excluir Livro</h1>
     <p>Tem certeza que deseja excluir o livro <strong>{{ livro.Titulo }}</strong> (ID {{ livro.ID_livro }})?</p>
-    <form method="post" action="{{ url_for('livro.delete_livro', id=livro.ID_livro) }}">
+    <form method="post" action="{{ url_for('livros.delete_livro', livro_id=livro.ID_livro) }}">
       <button class="btn btn-danger" type="submit">Excluir</button>
-      <a class="btn btn-secondary" href="{{ url_for('livro.view_livros') }}">Cancelar</a>
+      <a class="btn btn-secondary" href="{{ url_for('livros.view_livros') }}">Cancelar</a>
     </form>
   </div>
 </body>
